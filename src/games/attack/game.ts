@@ -5,28 +5,40 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../../node_modules/juno-console";
+import * as Juno from "../../../juno-console/dist/index";
 
-const config = {
+const config: Juno.IGameConfig = {
   name: "game",
   scale: 8
 };
 
 export class Game extends Juno.Game {
-  constructor(config) {
+  private pyr = {
+    x: 10,
+    y: 10
+  };
+
+  constructor(config: Juno.IGameConfig) {
     super(config);
+    this.startGame("MainGame", this);
+  }
 
-    for (let x = 0; x < 64; x++) {
-      for (let y = 0; y < 64; y++) {
-        this.pix(x, y);
-      }
+  private update(dt: number): void {
+    this.pyr.x += 0.2;
+    this.pyr.y += 0.1;
+  }
+
+  private render(dt: number): void {
+    this.api.cls(10);
+    for (let i = 0; i < 100; i++) {
+      this.api.pix(
+        Math.floor(Math.random() * 64) + 1,
+        Math.floor(Math.random() * 64) + 1,
+        Math.floor(Math.random() * 15) + 1
+      );
     }
-
-    this.start(this);
-    this.on("start", function() {
-      console.log("started", this);
-    });
-    this.emit("start");
+    this.api.pix(this.pyr.x, this.pyr.y, 8);
+    this.api.circb(10, 10, 10, 1, 4);
   }
 }
 
