@@ -2,17 +2,30 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Game Class
- * @license      Digitsensitive
+ * @description  Juno: Game Class
+ *
+ * This is the core game class of Juno.
+ * It initialize the canvas, the renderer and the game loop.
+ *
+ * For the canvas we create the canvas element in this class and append it
+ * with appendChild on the div element of the index.html.
+ * An alternative would be to use
+ * <HTMLCanvasElement>document.getElementById(config.name) and in the index.html
+ * put <canvas>. The problem with that approach is, that I could not append
+ * other canvas to the main canvas.
+ *
+ * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+var api_1 = require("./api");
 var loop_1 = require("./loop");
 var Game = /** @class */ (function () {
     function Game(config) {
         /**
          * Init canvas
          */
-        this.canvas = document.getElementById(config.name);
+        this.canvas = document.createElement("canvas");
+        document.getElementById(config.name).appendChild(this.canvas);
         /**
          * Init renderer
          */
@@ -31,6 +44,11 @@ var Game = /** @class */ (function () {
          * Init instance of game loop
          */
         this.gameLoop = new loop_1.GameLoop();
+        /**
+         * Init an API instance
+         */
+        this.api = new api_1.API(this.canvas, this.renderer, this.scaleFactor);
+        this.api.initPalette("140C1C44243430346D4E4A4F854C30346524D04648757161597DCED27D2C8595A16DAA2CD2AA996DC2CADAD45EDEEED6");
         /**
          * Array with the game states
          */
@@ -55,13 +73,6 @@ var Game = /** @class */ (function () {
         }, state);
         // start the game loop with this state
         this.gameLoop.start(name);
-    };
-    Game.prototype.pix = function (x, y) {
-        var rc = 55;
-        var xPos = x * this.scaleFactor;
-        var yPos = y * this.scaleFactor;
-        this.renderer.fillStyle = "rgba(" + rc + ",0,0,1)";
-        this.renderer.fillRect(xPos, yPos, this.scaleFactor, this.scaleFactor);
     };
     return Game;
 }());

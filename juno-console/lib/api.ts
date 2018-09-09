@@ -65,28 +65,33 @@ export class API {
     this.cnvArray = [];
   }
 
-  public pix(x: number, y: number, color: number): void {
-    let cnv = document.createElement("canvas");
+  public pix(x0: number, y0: number, color: number): void {
+    /*let cnv = document.createElement("canvas");
     let ctx = cnv.getContext("2d");
-    ctx.imageSmoothingEnabled = false;
-    ctx.scale(this.scaleFactor, this.scaleFactor);
-    let xPos = x * this.scaleFactor;
-    let yPos = y * this.scaleFactor;
+    ctx.scale(this.scaleFactor, this.scaleFactor);*/
+    let x = x0 * this.scaleFactor;
+    let y = y0 * this.scaleFactor;
+
+    /*
     var id = this.renderer.createImageData(this.scaleFactor, this.scaleFactor);
     var d = id.data;
-    d[0] = this.palette[color].substr(0, 2);
+    d[0] = this.palette[color].substr(0, 02);
     d[1] = this.palette[color].substr(2, 2);
     d[2] = this.palette[color].substr(4, 2);
     d[3] = "FF";
     this.renderer.fillStyle = "#" + this.palette[color];
-    this.renderer.putImageData(id, xPos, yPos);
+    this.renderer.putImageData(id, xPos, yPos);*/
+
+    this.renderer.fillStyle = "#" + this.palette[color];
+    this.renderer.fillRect(x, y, this.scaleFactor, this.scaleFactor);
+
     //let newElement = this.canvas.appendChild(cnv);
     //this.cnvArray.push(newElement);
     //return newElement;
   }
 
   /**
-   * Create a circle outline
+   * Create a circle outline with the midpoint circle algorithm
    * @param  x         [x coordinate of the center of the circle]
    * @param  y         [y coordinate of the center of the circle]
    * @param  r         [Radius of the circle]
@@ -94,19 +99,88 @@ export class API {
    * @param  color     [Index of the color in the palette]
    */
   public circb(
-    x: number,
-    y: number,
+    x0: number,
+    y0: number,
     r: number,
     thickness: number,
     color: number
   ): void {
-    let centerX = x * this.scaleFactor + r / 2;
-    let centerY = y * this.scaleFactor + r / 2;
+    let x = r - 1;
+    let y = 0;
+    let dx = 1;
+    let dy = 1;
+    let diameter = r * 2;
+    let decisionOver2 = dx - diameter;
 
-    this.renderer.beginPath();
-    this.renderer.arc(centerX, centerY, r, 0, 2 * Math.PI, false);
-    this.renderer.lineWidth = thickness;
-    this.renderer.strokeStyle = this.palette[color];
-    this.renderer.stroke();
+    while (x >= y) {
+      this.pix(x + x0, y + y0, color);
+      this.pix(y + x0, x + y0, color);
+      this.pix(-x + x0, y + y0, color);
+      this.pix(-y + x0, x + y0, color);
+      this.pix(-x + x0, -y + y0, color);
+      this.pix(-y + x0, -x + y0, color);
+      this.pix(x + x0, -y + y0, color);
+      this.pix(y + x0, -x + y0, color);
+      if (decisionOver2 <= 0) {
+        y++;
+        decisionOver2 += dy; // Change in decision criterion for y -> y+1
+        dy += 2;
+      }
+      if (decisionOver2 > 0) {
+        x--;
+        dx += 2;
+        decisionOver2 += -diameter + dx; // Change for y -> y+1, x -> x-1
+      }
+    }
+  }
+
+  /**
+   * Create a circle outline with the Bresenham's circle algorithm
+   * @param  x         [x coordinate of the center of the circle]
+   * @param  y         [y coordinate of the center of the circle]
+   * @param  r         [Radius of the circle]
+   * @param  thickness [Thickness of the circle outline]
+   * @param  color     [Index of the color in the palette]
+   */
+  public circb2(
+    x0: number,
+    y0: number,
+    r: number,
+    thickness: number,
+    color: number
+  ): void {
+    let x = 0;
+    let y = r;
+    let p = 3 - 2 * r;
+    this.pixel(x0, y0, x, y, color);
+
+    while (x < y) {
+      if (p < 0) {
+        x++;
+        p = p + 4 * x + 6;
+      } else {
+        x++;
+        y--;
+        p = p + 4 * (x - y) + 10;
+      }
+      this.pixel(x0, y0, x, y, color);
+    }
+  }
+
+  private pixel(
+    xc: number,
+    yc: number,
+    x: number,
+    y: number,
+    color: number
+  ): void {
+    this.pix(xc + x, yc + y, color);
+    this.pix(xc + x, yc - y, color);
+    this.pix(xc - x, yc + y, color);
+    this.pix(xc - x, yc - y, color);
+    this.pix(xc + y, yc + x, color);
+    this.pix(xc + y, yc - x, color);
+    this.pix(xc - y, yc + x, color);
+    this.pix(xc - y, yc - x, color);
   }
 }

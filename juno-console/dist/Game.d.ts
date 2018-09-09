@@ -1,9 +1,21 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Game Class
- * @license      Digitsensitive
+ * @description  Juno: Game Class
+ *
+ * This is the core game class of Juno.
+ * It initialize the canvas, the renderer and the game loop.
+ *
+ * For the canvas we create the canvas element in this class and append it
+ * with appendChild on the div element of the index.html.
+ * An alternative would be to use
+ * <HTMLCanvasElement>document.getElementById(config.name) and in the index.html
+ * put <canvas>. The problem with that approach is, that I could not append
+ * other canvas to the main canvas.
+ *
+ * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
+import { API } from "./api";
 export interface IGameConfig {
     name: string;
     scale: number;
@@ -14,6 +26,7 @@ export declare class Game {
     private canvas;
     private renderer;
     private scaleFactor;
+    api: API;
     private gameLoop;
     private gameStates;
     constructor(config: IGameConfig);
@@ -25,5 +38,4 @@ export declare class Game {
      * @param state     [the reference to the game state]
      */
     startGame(name: string, state: any): void;
-    pix(x: number, y: number): void;
 }

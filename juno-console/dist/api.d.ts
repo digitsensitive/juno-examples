@@ -45,14 +45,24 @@ export declare class API {
      */
     initPalette(palette: string): void;
     cls(color: number): void;
-    pix(x: number, y: number, color: number): void;
+    pix(x0: number, y0: number, color: number): void;
     /**
-     * Create a circle outline
+     * Create a circle outline with the midpoint circle algorithm
      * @param  x         [x coordinate of the center of the circle]
      * @param  y         [y coordinate of the center of the circle]
      * @param  r         [Radius of the circle]
      * @param  thickness [Thickness of the circle outline]
      * @param  color     [Index of the color in the palette]
      */
-    circb(x: number, y: number, r: number, thickness: number, color: number): void;
+    circb(x0: number, y0: number, r: number, thickness: number, color: number): void;
+    /**
+     * Create a circle outline with the Bresenham's circle algorithm
+     * @param  x         [x coordinate of the center of the circle]
+     * @param  y         [y coordinate of the center of the circle]
+     * @param  r         [Radius of the circle]
+     * @param  thickness [Thickness of the circle outline]
+     * @param  color     [Index of the color in the palette]
+     */
+    circb2(x0: number, y0: number, r: number, thickness: number, color: number): void;
+    private pixel;
 }
