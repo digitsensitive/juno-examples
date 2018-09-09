@@ -80,55 +80,18 @@ var API = /** @class */ (function () {
         //this.cnvArray.push(newElement);
         //return newElement;
     };
-    /**
-     * Create a circle outline with the midpoint circle algorithm
-     * @param  x         [x coordinate of the center of the circle]
-     * @param  y         [y coordinate of the center of the circle]
-     * @param  r         [Radius of the circle]
-     * @param  thickness [Thickness of the circle outline]
-     * @param  color     [Index of the color in the palette]
-     */
-    API.prototype.circb = function (x0, y0, r, thickness, color) {
-        var x = r - 1;
-        var y = 0;
-        var dx = 1;
-        var dy = 1;
-        var diameter = r * 2;
-        var decisionOver2 = dx - diameter;
-        while (x >= y) {
-            this.pix(x + x0, y + y0, color);
-            this.pix(y + x0, x + y0, color);
-            this.pix(-x + x0, y + y0, color);
-            this.pix(-y + x0, x + y0, color);
-            this.pix(-x + x0, -y + y0, color);
-            this.pix(-y + x0, -x + y0, color);
-            this.pix(x + x0, -y + y0, color);
-            this.pix(y + x0, -x + y0, color);
-            if (decisionOver2 <= 0) {
-                y++;
-                decisionOver2 += dy; // Change in decision criterion for y -> y+1
-                dy += 2;
-            }
-            if (decisionOver2 > 0) {
-                x--;
-                dx += 2;
-                decisionOver2 += -diameter + dx; // Change for y -> y+1, x -> x-1
-            }
-        }
-    };
-    /**
+    /********************************************************************
      * Create a circle outline with the Bresenham's circle algorithm
-     * @param  x         [x coordinate of the center of the circle]
-     * @param  y         [y coordinate of the center of the circle]
-     * @param  r         [Radius of the circle]
-     * @param  thickness [Thickness of the circle outline]
-     * @param  color     [Index of the color in the palette]
-     */
-    API.prototype.circb2 = function (x0, y0, r, thickness, color) {
+     * @param  x        [x coordinate of the center of the circle]
+     * @param  y        [y coordinate of the center of the circle]
+     * @param  r        [radius of the circle]
+     * @param  c        [index of the color in the palette]
+     ********************************************************************/
+    API.prototype.circb = function (x0, y0, r, c) {
         var x = 0;
         var y = r;
         var p = 3 - 2 * r;
-        this.pixel(x0, y0, x, y, color);
+        this.circbPixGroup(x0, y0, x, y, c);
         while (x < y) {
             if (p < 0) {
                 x++;
@@ -139,18 +102,91 @@ var API = /** @class */ (function () {
                 y--;
                 p = p + 4 * (x - y) + 10;
             }
-            this.pixel(x0, y0, x, y, color);
+            this.circbPixGroup(x0, y0, x, y, c);
         }
     };
-    API.prototype.pixel = function (xc, yc, x, y, color) {
-        this.pix(xc + x, yc + y, color);
-        this.pix(xc + x, yc - y, color);
-        this.pix(xc - x, yc + y, color);
-        this.pix(xc - x, yc - y, color);
-        this.pix(xc + y, yc + x, color);
-        this.pix(xc + y, yc - x, color);
-        this.pix(xc - y, yc + x, color);
-        this.pix(xc - y, yc - x, color);
+    /********************************************************************
+     * Create a filled circle with the Bresenham's circle algorithm
+     * @param  x         [x coordinate of the center of the circle]
+     * @param  y         [y coordinate of the center of the circle]
+     * @param  r         [radius of the circle]
+     * @param  c         [index of the color in the palette]
+     ********************************************************************/
+    API.prototype.circ = function (x0, y0, r, c) {
+        var x = 0;
+        var y = r;
+        var p = 3 - 2 * r;
+        this.circPixGroup(x0, y0, x, y, c);
+        while (x < y) {
+            if (p < 0) {
+                x++;
+                p = p + 4 * x + 6;
+            }
+            else {
+                x++;
+                y--;
+                p = p + 4 * (x - y) + 10;
+            }
+            this.circPixGroup(x0, y0, x, y, c);
+        }
+    };
+    /********************************************************************
+     * [pixel description]
+     * @param xc [description]
+     * @param yc [description]
+     * @param x  [description]
+     * @param y  [description]
+     * @param c  [description]
+     ********************************************************************/
+    API.prototype.circbPixGroup = function (x0, y0, x, y, c) {
+        this.pix(x0 + x, y0 + y, c);
+        this.pix(x0 + x, y0 - y, c);
+        this.pix(x0 - x, y0 + y, c);
+        this.pix(x0 - x, y0 - y, c);
+        this.pix(x0 + y, y0 + x, c);
+        this.pix(x0 + y, y0 - x, c);
+        this.pix(x0 - y, y0 + x, c);
+        this.pix(x0 - y, y0 - x, c);
+    };
+    /********************************************************************
+     * [pixel description]
+     * @param xc [description]
+     * @param yc [description]
+     * @param x  [description]
+     * @param y  [description]
+     * @param c  [description]
+     ********************************************************************/
+    API.prototype.circPixGroup = function (x0, y0, x, y, c) {
+        this.line(x0 - x, y0 + y, x0 + x, y0 + y, c);
+        this.pix(x0 + x, y0 + y, c);
+        this.pix(x0 + x, y0 - y, c);
+        this.pix(x0 - x, y0 + y, c);
+        this.pix(x0 - x, y0 - y, c);
+        this.pix(x0 + y, y0 + x, c);
+        this.pix(x0 + y, y0 - x, c);
+        this.pix(x0 - y, y0 + x, c);
+        this.pix(x0 - y, y0 - x, c);
+    };
+    API.prototype.line = function (x0, y0, x1, y1, c) {
+        var dx = Math.abs(x1 - x0);
+        var dy = Math.abs(y1 - y0);
+        var sx = x0 < x1 ? 1 : -1;
+        var sy = y0 < y1 ? 1 : -1;
+        var err = dx - dy;
+        while (true) {
+            this.pix(x0, y0, c);
+            if (x0 == x1 && y0 == y1)
+                break;
+            var e2 = 2 * err;
+            if (e2 > -dy) {
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y0 += sy;
+            }
+        }
     };
     return API;
 }());

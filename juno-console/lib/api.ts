@@ -101,7 +101,7 @@ export class API {
     let x = 0;
     let y = r;
     let p = 3 - 2 * r;
-    this.circPixGroup(x0, y0, x, y, c);
+    this.circbPixGroup(x0, y0, x, y, c);
 
     while (x < y) {
       if (p < 0) {
@@ -112,8 +112,33 @@ export class API {
         y--;
         p = p + 4 * (x - y) + 10;
       }
-      this.circPixGroup(x0, y0, x, y, c);
+      this.circbPixGroup(x0, y0, x, y, c);
     }
+  }
+
+  /********************************************************************
+   * [pixel description]
+   * @param xc [description]
+   * @param yc [description]
+   * @param x  [description]
+   * @param y  [description]
+   * @param c  [description]
+   ********************************************************************/
+  private circbPixGroup(
+    x0: number,
+    y0: number,
+    x: number,
+    y: number,
+    c: number
+  ): void {
+    this.pix(x0 + x, y0 + y, c);
+    this.pix(x0 + x, y0 - y, c);
+    this.pix(x0 - x, y0 + y, c);
+    this.pix(x0 - x, y0 - y, c);
+    this.pix(x0 + y, y0 + x, c);
+    this.pix(x0 + y, y0 - x, c);
+    this.pix(x0 - y, y0 + x, c);
+    this.pix(x0 - y, y0 - x, c);
   }
 
   /********************************************************************
@@ -151,20 +176,52 @@ export class API {
    * @param c  [description]
    ********************************************************************/
   private circPixGroup(
-    xc: number,
-    yc: number,
+    x0: number,
+    y0: number,
     x: number,
     y: number,
     c: number
   ): void {
-    this.pix(xc + x, yc + y, c);
-    this.pix(xc + x, yc - y, c);
-    this.pix(xc - x, yc + y, c);
-    this.pix(xc - x, yc - y, c);
-    this.pix(xc + y, yc + x, c);
-    this.pix(xc + y, yc - x, c);
-    this.pix(xc - y, yc + x, c);
-    this.pix(xc - y, yc - x, c);
+    this.line(x0 - x, y0 + y, x0 + x, y0 + y, c);
+    this.pix(x0 + x, y0 + y, c);
+    this.pix(x0 + x, y0 - y, c);
+    this.pix(x0 - x, y0 + y, c);
+    this.pix(x0 - x, y0 - y, c);
+    this.pix(x0 + y, y0 + x, c);
+    this.pix(x0 + y, y0 - x, c);
+    this.pix(x0 - y, y0 + x, c);
+    this.pix(x0 - y, y0 - x, c);
+  }
+
+  /********************************************************************
+   * Create a line with the Bresenham's line algorithm
+   * @param x0 [the starting x position]
+   * @param y0 [the starting y position]
+   * @param x1 [the ending x position]
+   * @param y1 [the ending y position]
+   * @param c  [index of the color in the palette]
+   ********************************************************************/
+  public line(x0: number, y0: number, x1: number, y1: number, c: number): void {
+    var dx = Math.abs(x1 - x0);
+    var dy = Math.abs(y1 - y0);
+    var sx = x0 < x1 ? 1 : -1;
+    var sy = y0 < y1 ? 1 : -1;
+    var err = dx - dy;
+
+    while (true) {
+      this.pix(x0, y0, c);
+
+      if (x0 == x1 && y0 == y1) break;
+      var e2 = 2 * err;
+      if (e2 > -dy) {
+        err -= dy;
+        x0 += sx;
+      }
+      if (e2 < dx) {
+        err += dx;
+        y0 += sy;
+      }
+    }
   }
 
   /************************************************

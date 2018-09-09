@@ -18,10 +18,6 @@ export class Game extends Juno.Game {
     y: 10
   };
 
-  private circle = {
-    r: 6
-  };
-
   constructor(config: Juno.IGameConfig) {
     super(config);
     this.startGame("MainGame", this);
@@ -35,7 +31,8 @@ export class Game extends Juno.Game {
   private render(dt: number): void {
     this.api.cls(3);
     this.api.pix(this.pyr.x, this.pyr.y, 11);
-    this.api.circb2(30, 30, this.circle.r, 1, 6);
+    this.api.circb(30, 30, 2, 6);
+    this.api.line(5, 5, 10, 10, 6);
   }
 }
 

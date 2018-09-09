@@ -46,23 +46,39 @@ export declare class API {
     initPalette(palette: string): void;
     cls(color: number): void;
     pix(x0: number, y0: number, color: number): void;
-    /**
-     * Create a circle outline with the midpoint circle algorithm
-     * @param  x         [x coordinate of the center of the circle]
-     * @param  y         [y coordinate of the center of the circle]
-     * @param  r         [Radius of the circle]
-     * @param  thickness [Thickness of the circle outline]
-     * @param  color     [Index of the color in the palette]
-     */
-    circb(x0: number, y0: number, r: number, thickness: number, color: number): void;
-    /**
+    /********************************************************************
      * Create a circle outline with the Bresenham's circle algorithm
+     * @param  x        [x coordinate of the center of the circle]
+     * @param  y        [y coordinate of the center of the circle]
+     * @param  r        [radius of the circle]
+     * @param  c        [index of the color in the palette]
+     ********************************************************************/
+    circb(x0: number, y0: number, r: number, c: number): void;
+    /********************************************************************
+     * Create a filled circle with the Bresenham's circle algorithm
      * @param  x         [x coordinate of the center of the circle]
      * @param  y         [y coordinate of the center of the circle]
-     * @param  r         [Radius of the circle]
-     * @param  thickness [Thickness of the circle outline]
-     * @param  color     [Index of the color in the palette]
-     */
-    circb2(x0: number, y0: number, r: number, thickness: number, color: number): void;
-    private pixel;
+     * @param  r         [radius of the circle]
+     * @param  c         [index of the color in the palette]
+     ********************************************************************/
+    circ(x0: number, y0: number, r: number, c: number): void;
+    /********************************************************************
+     * [pixel description]
+     * @param xc [description]
+     * @param yc [description]
+     * @param x  [description]
+     * @param y  [description]
+     * @param c  [description]
+     ********************************************************************/
+    private circbPixGroup;
+    /********************************************************************
+     * [pixel description]
+     * @param xc [description]
+     * @param yc [description]
+     * @param x  [description]
+     * @param y  [description]
+     * @param c  [description]
+     ********************************************************************/
+    private circPixGroup;
+    line(x0: number, y0: number, x1: number, y1: number, c: number): void;
 }
