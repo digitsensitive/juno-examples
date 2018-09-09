@@ -90,69 +90,18 @@ export class API {
     //return newElement;
   }
 
-  /**
-   * Create a circle outline with the midpoint circle algorithm
-   * @param  x         [x coordinate of the center of the circle]
-   * @param  y         [y coordinate of the center of the circle]
-   * @param  r         [Radius of the circle]
-   * @param  thickness [Thickness of the circle outline]
-   * @param  color     [Index of the color in the palette]
-   */
-  public circb(
-    x0: number,
-    y0: number,
-    r: number,
-    thickness: number,
-    color: number
-  ): void {
-    let x = r - 1;
-    let y = 0;
-    let dx = 1;
-    let dy = 1;
-    let diameter = r * 2;
-    let decisionOver2 = dx - diameter;
-
-    while (x >= y) {
-      this.pix(x + x0, y + y0, color);
-      this.pix(y + x0, x + y0, color);
-      this.pix(-x + x0, y + y0, color);
-      this.pix(-y + x0, x + y0, color);
-      this.pix(-x + x0, -y + y0, color);
-      this.pix(-y + x0, -x + y0, color);
-      this.pix(x + x0, -y + y0, color);
-      this.pix(y + x0, -x + y0, color);
-      if (decisionOver2 <= 0) {
-        y++;
-        decisionOver2 += dy; // Change in decision criterion for y -> y+1
-        dy += 2;
-      }
-      if (decisionOver2 > 0) {
-        x--;
-        dx += 2;
-        decisionOver2 += -diameter + dx; // Change for y -> y+1, x -> x-1
-      }
-    }
-  }
-
-  /**
+  /********************************************************************
    * Create a circle outline with the Bresenham's circle algorithm
-   * @param  x         [x coordinate of the center of the circle]
-   * @param  y         [y coordinate of the center of the circle]
-   * @param  r         [Radius of the circle]
-   * @param  thickness [Thickness of the circle outline]
-   * @param  color     [Index of the color in the palette]
-   */
-  public circb2(
-    x0: number,
-    y0: number,
-    r: number,
-    thickness: number,
-    color: number
-  ): void {
+   * @param  x        [x coordinate of the center of the circle]
+   * @param  y        [y coordinate of the center of the circle]
+   * @param  r        [radius of the circle]
+   * @param  c        [index of the color in the palette]
+   ********************************************************************/
+  public circb(x0: number, y0: number, r: number, c: number): void {
     let x = 0;
     let y = r;
     let p = 3 - 2 * r;
-    this.pixel(x0, y0, x, y, color);
+    this.circPixGroup(x0, y0, x, y, c);
 
     while (x < y) {
       if (p < 0) {
@@ -163,24 +112,106 @@ export class API {
         y--;
         p = p + 4 * (x - y) + 10;
       }
-      this.pixel(x0, y0, x, y, color);
+      this.circPixGroup(x0, y0, x, y, c);
     }
   }
 
-  private pixel(
+  /********************************************************************
+   * Create a filled circle with the Bresenham's circle algorithm
+   * @param  x         [x coordinate of the center of the circle]
+   * @param  y         [y coordinate of the center of the circle]
+   * @param  r         [radius of the circle]
+   * @param  c         [index of the color in the palette]
+   ********************************************************************/
+  public circ(x0: number, y0: number, r: number, c: number): void {
+    let x = 0;
+    let y = r;
+    let p = 3 - 2 * r;
+    this.circPixGroup(x0, y0, x, y, c);
+
+    while (x < y) {
+      if (p < 0) {
+        x++;
+        p = p + 4 * x + 6;
+      } else {
+        x++;
+        y--;
+        p = p + 4 * (x - y) + 10;
+      }
+      this.circPixGroup(x0, y0, x, y, c);
+    }
+  }
+
+  /********************************************************************
+   * [pixel description]
+   * @param xc [description]
+   * @param yc [description]
+   * @param x  [description]
+   * @param y  [description]
+   * @param c  [description]
+   ********************************************************************/
+  private circPixGroup(
     xc: number,
     yc: number,
     x: number,
     y: number,
-    color: number
+    c: number
   ): void {
-    this.pix(xc + x, yc + y, color);
-    this.pix(xc + x, yc - y, color);
-    this.pix(xc - x, yc + y, color);
-    this.pix(xc - x, yc - y, color);
-    this.pix(xc + y, yc + x, color);
-    this.pix(xc + y, yc - x, color);
-    this.pix(xc - y, yc + x, color);
-    this.pix(xc - y, yc - x, color);
+    this.pix(xc + x, yc + y, c);
+    this.pix(xc + x, yc - y, c);
+    this.pix(xc - x, yc + y, c);
+    this.pix(xc - x, yc - y, c);
+    this.pix(xc + y, yc + x, c);
+    this.pix(xc + y, yc - x, c);
+    this.pix(xc - y, yc + x, c);
+    this.pix(xc - y, yc - x, c);
   }
+
+  /************************************************
+   * WORK IN PROGRESS
+   ************************************************/
+
+  /**
+   * Create a circle outline with the midpoint circle algorithm
+   * @param  x         [x coordinate of the center of the circle]
+   * @param  y         [y coordinate of the center of the circle]
+   * @param  r         [Radius of the circle]
+   * @param  thickness [Thickness of the circle outline]
+   * @param  color     [Index of the color in the palette]
+   */
+  /*public circb(
+     x0: number,
+     y0: number,
+     r: number,
+     thickness: number,
+     color: number
+   ): void {
+     let x = r - 1;
+     let y = 0;
+     let dx = 1;
+     let dy = 1;
+     let diameter = r * 2;
+     let decisionOver2 = dx - diameter;
+
+     while (x >= y) {
+       this.pix(x + x0, y + y0, color);
+       this.pix(y + x0, x + y0, color);
+       this.pix(-x + x0, y + y0, color);
+       this.pix(-y + x0, x + y0, color);
+       this.pix(-x + x0, -y + y0, color);
+       this.pix(-y + x0, -x + y0, color);
+       this.pix(x + x0, -y + y0, color);
+       this.pix(y + x0, -x + y0, color);
+       if (decisionOver2 <= 0) {
+         y++;
+         decisionOver2 += dy; // Change in decision criterion for y -> y+1
+         dy += 2;
+       }
+       if (decisionOver2 > 0) {
+         x--;
+         dx += 2;
+         decisionOver2 += -diameter + dx; // Change for y -> y+1, x -> x-1
+       }
+     }
+   }*/
 }

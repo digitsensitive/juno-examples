@@ -19,7 +19,7 @@ export class Game extends Juno.Game {
   };
 
   private circle = {
-    r: 1
+    r: 6
   };
 
   constructor(config: Juno.IGameConfig) {
@@ -30,17 +30,12 @@ export class Game extends Juno.Game {
   private update(dt: number): void {
     this.pyr.x += 0.2;
     this.pyr.y += 0.1;
-    this.circle.r += 1;
-
-    if (this.circle.r > 30) {
-      this.circle.r = 1;
-    }
   }
 
   private render(dt: number): void {
     this.api.cls(3);
     this.api.pix(this.pyr.x, this.pyr.y, 11);
-    this.api.circb(30, 30, this.circle.r, 1, 6);
+    this.api.circb2(30, 30, this.circle.r, 1, 6);
   }
 }
 
