@@ -12,7 +12,6 @@ export declare class API {
     private renderer;
     private scaleFactor;
     private palette;
-    private cnvArray;
     constructor(canvas: HTMLCanvasElement, renderer: any, scaleFactor: number);
     /**
      * Init color palette with chain hex color string
@@ -45,6 +44,12 @@ export declare class API {
      */
     initPalette(palette: string): void;
     cls(color: number): void;
+    /**
+     * Draw one pixel at a specific 2D location (x and y)
+     * @param x0    [x coordinate of the pixel]
+     * @param y0    [y coordinate of the pixel]
+     * @param color [index of the color in the palette]
+     */
     pix(x0: number, y0: number, color: number): void;
     /********************************************************************
      * Create a circle outline with the Bresenham's circle algorithm

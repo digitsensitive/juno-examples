@@ -14,7 +14,6 @@ var API = /** @class */ (function () {
         this.canvas = canvas;
         this.renderer = renderer;
         this.scaleFactor = scaleFactor;
-        this.cnvArray = [];
     }
     /**
      * Init color palette with chain hex color string
@@ -57,28 +56,16 @@ var API = /** @class */ (function () {
         this.renderer.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.renderer.fillStyle = "#" + this.palette[color];
         this.renderer.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.cnvArray = [];
     };
+    /**
+     * Draw one pixel at a specific 2D location (x and y)
+     * @param x0    [x coordinate of the pixel]
+     * @param y0    [y coordinate of the pixel]
+     * @param color [index of the color in the palette]
+     */
     API.prototype.pix = function (x0, y0, color) {
-        /*let cnv = document.createElement("canvas");
-        let ctx = cnv.getContext("2d");
-        ctx.scale(this.scaleFactor, this.scaleFactor);*/
-        var x = x0 * this.scaleFactor;
-        var y = y0 * this.scaleFactor;
-        /*
-        var id = this.renderer.createImageData(this.scaleFactor, this.scaleFactor);
-        var d = id.data;
-        d[0] = this.palette[color].substr(0, 2);
-        d[1] = this.palette[color].substr(2, 2);
-        d[2] = this.palette[color].substr(4, 2);
-        d[3] = "FF";
         this.renderer.fillStyle = "#" + this.palette[color];
-        this.renderer.putImageData(id, xPos, yPos);*/
-        this.renderer.fillStyle = "#" + this.palette[color];
-        this.renderer.fillRect(x, y, this.scaleFactor, this.scaleFactor);
-        //let newElement = this.canvas.appendChild(cnv);
-        //this.cnvArray.push(newElement);
-        //return newElement;
+        this.renderer.fillRect(x0 * this.scaleFactor, y0 * this.scaleFactor, this.scaleFactor, this.scaleFactor);
     };
     /********************************************************************
      * Create a circle outline with the Bresenham's circle algorithm
@@ -202,29 +189,6 @@ var API = /** @class */ (function () {
                 }
             }
         }
-        /*  this.renderer.beginPath();
-        this.renderer.moveTo(x0 * this.scaleFactor, y0 * this.scaleFactor);
-        this.renderer.lineTo(x1 * this.scaleFactor, y1 * this.scaleFactor);
-        this.renderer.stroke();*/
-        /*var dx = Math.abs(x1 - x0);
-        var dy = Math.abs(y1 - y0);
-        var sx = x0 < x1 ? 1 : -1;
-        var sy = y0 < y1 ? 1 : -1;
-        var err = dx - dy;
-    
-        while (x0 != x1 || y0 != y1) {
-          this.pix(x0, y0, c);
-    
-          var e2 = 2 * err;
-          if (e2 > -dy) {
-            err -= dy;
-            x0 += sx;
-          }
-          if (e2 < dx) {
-            err += dx;
-            y0 += sy;
-          }
-        }*/
     };
     return API;
 }());

@@ -10,15 +10,12 @@
 
 export class API {
   private palette: string[];
-  private cnvArray: HTMLCanvasElement[];
 
   constructor(
     private canvas: HTMLCanvasElement,
     private renderer: any,
     private scaleFactor: number
-  ) {
-    this.cnvArray = [];
-  }
+  ) {}
 
   /**
    * Init color palette with chain hex color string
@@ -58,40 +55,34 @@ export class API {
     }
   }
 
+  /********************************************************************
+   * Clear the screen with a specified color.
+   * @param color [index of the color in the palette]
+   /********************************************************************/
   public cls(color: number): void {
     this.renderer.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.renderer.fillStyle = "#" + this.palette[color];
     this.renderer.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.cnvArray = [];
-  }
-
-  public pix(x0: number, y0: number, color: number): void {
-    /*let cnv = document.createElement("canvas");
-    let ctx = cnv.getContext("2d");
-    ctx.scale(this.scaleFactor, this.scaleFactor);*/
-    let x = x0 * this.scaleFactor;
-    let y = y0 * this.scaleFactor;
-
-    /*
-    var id = this.renderer.createImageData(this.scaleFactor, this.scaleFactor);
-    var d = id.data;
-    d[0] = this.palette[color].substr(0, 2);
-    d[1] = this.palette[color].substr(2, 2);
-    d[2] = this.palette[color].substr(4, 2);
-    d[3] = "FF";
-    this.renderer.fillStyle = "#" + this.palette[color];
-    this.renderer.putImageData(id, xPos, yPos);*/
-
-    this.renderer.fillStyle = "#" + this.palette[color];
-    this.renderer.fillRect(x, y, this.scaleFactor, this.scaleFactor);
-
-    //let newElement = this.canvas.appendChild(cnv);
-    //this.cnvArray.push(newElement);
-    //return newElement;
   }
 
   /********************************************************************
-   * Create a circle outline with the Bresenham's circle algorithm
+   * Draw one pixel at a specific 2D location (x and y).
+   * @param x0    [x coordinate of the pixel]
+   * @param y0    [y coordinate of the pixel]
+   * @param color [index of the color in the palette]
+   ********************************************************************/
+  public pix(x0: number, y0: number, color: number): void {
+    this.renderer.fillStyle = "#" + this.palette[color];
+    this.renderer.fillRect(
+      x0 * this.scaleFactor,
+      y0 * this.scaleFactor,
+      this.scaleFactor,
+      this.scaleFactor
+    );
+  }
+
+  /********************************************************************
+   * Create a circle outline with the Bresenham's circle algorithm.
    * @param  x        [x coordinate of the center of the circle]
    * @param  y        [y coordinate of the center of the circle]
    * @param  r        [radius of the circle]
@@ -142,7 +133,7 @@ export class API {
   }
 
   /********************************************************************
-   * Create a filled circle with the Bresenham's circle algorithm
+   * Create a filled circle with the Bresenham's circle algorithm.
    * @param  x         [x coordinate of the center of the circle]
    * @param  y         [y coordinate of the center of the circle]
    * @param  r         [radius of the circle]
@@ -194,7 +185,7 @@ export class API {
   }
 
   /********************************************************************
-   * Create a line with the Bresenham's line algorithm
+   * Create a line with the Bresenham's line algorithm.
    * @param x0 [the starting x position]
    * @param y0 [the starting y position]
    * @param x1 [the ending x position]
@@ -229,78 +220,5 @@ export class API {
         }
       }
     }
-
-    /*  this.renderer.beginPath();
-    this.renderer.moveTo(x0 * this.scaleFactor, y0 * this.scaleFactor);
-    this.renderer.lineTo(x1 * this.scaleFactor, y1 * this.scaleFactor);
-    this.renderer.stroke();*/
-
-    /*var dx = Math.abs(x1 - x0);
-    var dy = Math.abs(y1 - y0);
-    var sx = x0 < x1 ? 1 : -1;
-    var sy = y0 < y1 ? 1 : -1;
-    var err = dx - dy;
-
-    while (x0 != x1 || y0 != y1) {
-      this.pix(x0, y0, c);
-
-      var e2 = 2 * err;
-      if (e2 > -dy) {
-        err -= dy;
-        x0 += sx;
-      }
-      if (e2 < dx) {
-        err += dx;
-        y0 += sy;
-      }
-    }*/
   }
-
-  /************************************************
-   * WORK IN PROGRESS
-   ************************************************/
-
-  /**
-   * Create a circle outline with the midpoint circle algorithm
-   * @param  x         [x coordinate of the center of the circle]
-   * @param  y         [y coordinate of the center of the circle]
-   * @param  r         [Radius of the circle]
-   * @param  thickness [Thickness of the circle outline]
-   * @param  color     [Index of the color in the palette]
-   */
-  /*public circb(
-     x0: number,
-     y0: number,
-     r: number,
-     thickness: number,
-     color: number
-   ): void {
-     let x = r - 1;
-     let y = 0;
-     let dx = 1;
-     let dy = 1;
-     let diameter = r * 2;
-     let decisionOver2 = dx - diameter;
-
-     while (x >= y) {
-       this.pix(x + x0, y + y0, color);
-       this.pix(y + x0, x + y0, color);
-       this.pix(-x + x0, y + y0, color);
-       this.pix(-y + x0, x + y0, color);
-       this.pix(-x + x0, -y + y0, color);
-       this.pix(-y + x0, -x + y0, color);
-       this.pix(x + x0, -y + y0, color);
-       this.pix(y + x0, -x + y0, color);
-       if (decisionOver2 <= 0) {
-         y++;
-         decisionOver2 += dy; // Change in decision criterion for y -> y+1
-         dy += 2;
-       }
-       if (decisionOver2 > 0) {
-         x--;
-         dx += 2;
-         decisionOver2 += -diameter + dx; // Change for y -> y+1, x -> x-1
-       }
-     }
-   }*/
 }
