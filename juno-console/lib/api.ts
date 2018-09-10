@@ -44,9 +44,9 @@ export class API {
    * GRAYSCALE
    * 000000111111222222333333444444555555666666777777888888999999aaaaaabbbbbbccccccddddddeeeeeeffffff
    *
-   * @param palette [The color palette]
+   * @param palette [index of the color in the palette]
    */
-  public initPalette(palette: string): void {
+  public ipal(palette: string): void {
     this.palette = [];
     let fromPositionInString = 0;
     while (fromPositionInString < 96) {
