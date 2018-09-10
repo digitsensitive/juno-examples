@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/games/attack/game.ts',
+  entry: './src/rect.ts',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'

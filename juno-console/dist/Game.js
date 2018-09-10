@@ -48,7 +48,7 @@ var Game = /** @class */ (function () {
          * Init an API instance
          */
         this.api = new api_1.API(this.canvas, this.renderer, this.scaleFactor);
-        this.api.initPalette("140C1C44243430346D4E4A4F854C30346524D04648757161597DCED27D2C8595A16DAA2CD2AA996DC2CADAD45EDEEED6");
+        this.api.ipal("140C1C44243430346D4E4A4F854C30346524D04648757161597DCED27D2C8595A16DAA2CD2AA996DC2CADAD45EDEEED6");
         /**
          * Array with the game states
          */

@@ -1,11 +1,16 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Attack
+ * @description  Line example
+ *
+ * A small example to show how to use the api.line() function.
+ * This example was rewritten from the TIC-80 Line example writte in Lua:
+ * https://github.com/nesbox/TIC-80/wiki/line
+ *
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../../juno-console/dist/index";
+import * as Juno from "../juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
@@ -19,7 +24,7 @@ export class Game extends Juno.Game {
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.startGame("MainGame", this);
+    this.startGame("Line", this);
   }
 
   private update(dt: number): void {}

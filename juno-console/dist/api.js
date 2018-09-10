@@ -42,9 +42,9 @@ var API = /** @class */ (function () {
      * GRAYSCALE
      * 000000111111222222333333444444555555666666777777888888999999aaaaaabbbbbbccccccddddddeeeeeeffffff
      *
-     * @param palette [The color palette]
+     * @param palette [index of the color in the palette]
      */
-    API.prototype.initPalette = function (palette) {
+    API.prototype.ipal = function (palette) {
         this.palette = [];
         var fromPositionInString = 0;
         while (fromPositionInString < 96) {
@@ -193,6 +193,18 @@ var API = /** @class */ (function () {
                 }
             }
         }
+    };
+    /********************************************************************
+     * Draw a filled rectangle.
+     * @param x0    [description]
+     * @param y0    [description]
+     * @param w     [description]
+     * @param h     [description]
+     * @param color [description]
+     ********************************************************************/
+    API.prototype.rect = function (x0, y0, w, h, color) {
+        this.renderer.fillStyle = "#" + this.palette[color];
+        this.renderer.fillRect(x0 * this.scaleFactor, y0 * this.scaleFactor, w * this.scaleFactor, h * this.scaleFactor);
     };
     return API;
 }());

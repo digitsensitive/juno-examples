@@ -40,9 +40,9 @@ export declare class API {
      * GRAYSCALE
      * 000000111111222222333333444444555555666666777777888888999999aaaaaabbbbbbccccccddddddeeeeeeffffff
      *
-     * @param palette [The color palette]
+     * @param palette [index of the color in the palette]
      */
-    initPalette(palette: string): void;
+    ipal(palette: string): void;
     /********************************************************************
      * Clear the screen with a specified color.
      * @param color [index of the color in the palette]
@@ -98,4 +98,13 @@ export declare class API {
      * @param c  [index of the color in the palette]
      ********************************************************************/
     line(x0: number, y0: number, x1: number, y1: number, c: number): void;
+    /********************************************************************
+     * Draw a filled rectangle.
+     * @param x0    [description]
+     * @param y0    [description]
+     * @param w     [description]
+     * @param h     [description]
+     * @param color [description]
+     ********************************************************************/
+    rect(x0: number, y0: number, w: number, h: number, color: number): void;
 }
