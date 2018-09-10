@@ -75,7 +75,7 @@ export class API {
     /*
     var id = this.renderer.createImageData(this.scaleFactor, this.scaleFactor);
     var d = id.data;
-    d[0] = this.palette[color].substr(0, 02);
+    d[0] = this.palette[color].substr(0, 2);
     d[1] = this.palette[color].substr(2, 2);
     d[2] = this.palette[color].substr(4, 2);
     d[3] = "FF";
@@ -202,16 +202,48 @@ export class API {
    * @param c  [index of the color in the palette]
    ********************************************************************/
   public line(x0: number, y0: number, x1: number, y1: number, c: number): void {
-    var dx = Math.abs(x1 - x0);
+    x0 = Math.ceil(x0);
+    y0 = Math.ceil(y0);
+    x1 = Math.ceil(x1);
+    y1 = Math.ceil(y1);
+    let dx = Math.abs(x1 - x0);
+    let dy = Math.abs(y1 - y0);
+    let sx = x0 < x1 ? 1 : -1;
+    let sy = y0 < y1 ? 1 : -1;
+    let err = dx - dy;
+
+    for (let x = 0; x <= dx; x++) {
+      for (let y = 0; y <= dy; y++) {
+        this.pix(x0, y0, c);
+        if (x0 == x1 && y0 == y1) {
+          break;
+        }
+        let e2 = 2 * err;
+        if (e2 >= -dy) {
+          err -= dy;
+          x0 += sx;
+        }
+        if (e2 < dx) {
+          err += dx;
+          y0 += sy;
+        }
+      }
+    }
+
+    /*  this.renderer.beginPath();
+    this.renderer.moveTo(x0 * this.scaleFactor, y0 * this.scaleFactor);
+    this.renderer.lineTo(x1 * this.scaleFactor, y1 * this.scaleFactor);
+    this.renderer.stroke();*/
+
+    /*var dx = Math.abs(x1 - x0);
     var dy = Math.abs(y1 - y0);
     var sx = x0 < x1 ? 1 : -1;
     var sy = y0 < y1 ? 1 : -1;
     var err = dx - dy;
 
-    while (true) {
+    while (x0 != x1 || y0 != y1) {
       this.pix(x0, y0, c);
 
-      if (x0 == x1 && y0 == y1) break;
       var e2 = 2 * err;
       if (e2 > -dy) {
         err -= dy;
@@ -221,7 +253,7 @@ export class API {
         err += dx;
         y0 += sy;
       }
-    }
+    }*/
   }
 
   /************************************************

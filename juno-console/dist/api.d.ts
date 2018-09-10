@@ -55,6 +55,15 @@ export declare class API {
      ********************************************************************/
     circb(x0: number, y0: number, r: number, c: number): void;
     /********************************************************************
+     * [pixel description]
+     * @param xc [description]
+     * @param yc [description]
+     * @param x  [description]
+     * @param y  [description]
+     * @param c  [description]
+     ********************************************************************/
+    private circbPixGroup;
+    /********************************************************************
      * Create a filled circle with the Bresenham's circle algorithm
      * @param  x         [x coordinate of the center of the circle]
      * @param  y         [y coordinate of the center of the circle]
@@ -70,15 +79,14 @@ export declare class API {
      * @param y  [description]
      * @param c  [description]
      ********************************************************************/
-    private circbPixGroup;
-    /********************************************************************
-     * [pixel description]
-     * @param xc [description]
-     * @param yc [description]
-     * @param x  [description]
-     * @param y  [description]
-     * @param c  [description]
-     ********************************************************************/
     private circPixGroup;
+    /********************************************************************
+     * Create a line with the Bresenham's line algorithm
+     * @param x0 [the starting x position]
+     * @param y0 [the starting y position]
+     * @param x1 [the ending x position]
+     * @param y1 [the ending y position]
+     * @param c  [index of the color in the palette]
+     ********************************************************************/
     line(x0: number, y0: number, x1: number, y1: number, c: number): void;
 }

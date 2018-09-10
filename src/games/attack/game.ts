@@ -13,26 +13,37 @@ const config: Juno.IGameConfig = {
 };
 
 export class Game extends Juno.Game {
-  private pyr = {
-    x: 10,
-    y: 10
-  };
+  private pi8: number = Math.PI / 4;
+  private pi2: number = Math.PI * 2;
+  private t: number = 0;
 
   constructor(config: Juno.IGameConfig) {
     super(config);
     this.startGame("MainGame", this);
   }
 
-  private update(dt: number): void {
-    this.pyr.x += 0.2;
-    this.pyr.y += 0.1;
-  }
+  private update(dt: number): void {}
 
   private render(dt: number): void {
     this.api.cls(3);
-    this.api.pix(this.pyr.x, this.pyr.y, 11);
-    this.api.circb(30, 30, 2, 6);
-    this.api.line(5, 5, 10, 10, 6);
+
+    for (let i = this.t % 8; i <= 63; i = i + 8) {
+      this.api.line(i, 0, 0, 63 - i, 8);
+      this.api.line(i, 63, 63, 63 - i, 6);
+      this.t = this.t + 0.02;
+    }
+
+    for (let i = (this.t / 16) % this.pi8; i <= this.pi2; i += this.pi8) {
+      let x = 32 + 15 * Math.cos(i);
+      let y = 32 + 15 * Math.cos(i);
+      this.api.line(63, 0, x, y, 15);
+      this.api.line(0, 63, x, y, 15);
+    }
+
+    this.api.line(0, 0, 63, 0, 8);
+    this.api.line(0, 0, 0, 63, 8);
+    this.api.line(63, 0, 63, 63, 6);
+    this.api.line(0, 63, 63, 63, 6);
   }
 }
 

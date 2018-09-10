@@ -68,7 +68,7 @@ var API = /** @class */ (function () {
         /*
         var id = this.renderer.createImageData(this.scaleFactor, this.scaleFactor);
         var d = id.data;
-        d[0] = this.palette[color].substr(0, 02);
+        d[0] = this.palette[color].substr(0, 2);
         d[1] = this.palette[color].substr(2, 2);
         d[2] = this.palette[color].substr(4, 2);
         d[3] = "FF";
@@ -106,6 +106,24 @@ var API = /** @class */ (function () {
         }
     };
     /********************************************************************
+     * [pixel description]
+     * @param xc [description]
+     * @param yc [description]
+     * @param x  [description]
+     * @param y  [description]
+     * @param c  [description]
+     ********************************************************************/
+    API.prototype.circbPixGroup = function (x0, y0, x, y, c) {
+        this.pix(x0 + x, y0 + y, c);
+        this.pix(x0 + x, y0 - y, c);
+        this.pix(x0 - x, y0 + y, c);
+        this.pix(x0 - x, y0 - y, c);
+        this.pix(x0 + y, y0 + x, c);
+        this.pix(x0 + y, y0 - x, c);
+        this.pix(x0 - y, y0 + x, c);
+        this.pix(x0 - y, y0 - x, c);
+    };
+    /********************************************************************
      * Create a filled circle with the Bresenham's circle algorithm
      * @param  x         [x coordinate of the center of the circle]
      * @param  y         [y coordinate of the center of the circle]
@@ -138,24 +156,6 @@ var API = /** @class */ (function () {
      * @param y  [description]
      * @param c  [description]
      ********************************************************************/
-    API.prototype.circbPixGroup = function (x0, y0, x, y, c) {
-        this.pix(x0 + x, y0 + y, c);
-        this.pix(x0 + x, y0 - y, c);
-        this.pix(x0 - x, y0 + y, c);
-        this.pix(x0 - x, y0 - y, c);
-        this.pix(x0 + y, y0 + x, c);
-        this.pix(x0 + y, y0 - x, c);
-        this.pix(x0 - y, y0 + x, c);
-        this.pix(x0 - y, y0 - x, c);
-    };
-    /********************************************************************
-     * [pixel description]
-     * @param xc [description]
-     * @param yc [description]
-     * @param x  [description]
-     * @param y  [description]
-     * @param c  [description]
-     ********************************************************************/
     API.prototype.circPixGroup = function (x0, y0, x, y, c) {
         this.line(x0 - x, y0 + y, x0 + x, y0 + y, c);
         this.pix(x0 + x, y0 + y, c);
@@ -167,26 +167,64 @@ var API = /** @class */ (function () {
         this.pix(x0 - y, y0 + x, c);
         this.pix(x0 - y, y0 - x, c);
     };
+    /********************************************************************
+     * Create a line with the Bresenham's line algorithm
+     * @param x0 [the starting x position]
+     * @param y0 [the starting y position]
+     * @param x1 [the ending x position]
+     * @param y1 [the ending y position]
+     * @param c  [index of the color in the palette]
+     ********************************************************************/
     API.prototype.line = function (x0, y0, x1, y1, c) {
+        x0 = Math.ceil(x0);
+        y0 = Math.ceil(y0);
+        x1 = Math.ceil(x1);
+        y1 = Math.ceil(y1);
         var dx = Math.abs(x1 - x0);
         var dy = Math.abs(y1 - y0);
         var sx = x0 < x1 ? 1 : -1;
         var sy = y0 < y1 ? 1 : -1;
         var err = dx - dy;
-        while (true) {
-            this.pix(x0, y0, c);
-            if (x0 == x1 && y0 == y1)
-                break;
-            var e2 = 2 * err;
-            if (e2 > -dy) {
-                err -= dy;
-                x0 += sx;
-            }
-            if (e2 < dx) {
-                err += dx;
-                y0 += sy;
+        for (var x = 0; x <= dx; x++) {
+            for (var y = 0; y <= dy; y++) {
+                this.pix(x0, y0, c);
+                if (x0 == x1 && y0 == y1) {
+                    break;
+                }
+                var e2 = 2 * err;
+                if (e2 >= -dy) {
+                    err -= dy;
+                    x0 += sx;
+                }
+                if (e2 < dx) {
+                    err += dx;
+                    y0 += sy;
+                }
             }
         }
+        /*  this.renderer.beginPath();
+        this.renderer.moveTo(x0 * this.scaleFactor, y0 * this.scaleFactor);
+        this.renderer.lineTo(x1 * this.scaleFactor, y1 * this.scaleFactor);
+        this.renderer.stroke();*/
+        /*var dx = Math.abs(x1 - x0);
+        var dy = Math.abs(y1 - y0);
+        var sx = x0 < x1 ? 1 : -1;
+        var sy = y0 < y1 ? 1 : -1;
+        var err = dx - dy;
+    
+        while (x0 != x1 || y0 != y1) {
+          this.pix(x0, y0, c);
+    
+          var e2 = 2 * err;
+          if (e2 > -dy) {
+            err -= dy;
+            x0 += sx;
+          }
+          if (e2 < dx) {
+            err += dx;
+            y0 += sy;
+          }
+        }*/
     };
     return API;
 }());
