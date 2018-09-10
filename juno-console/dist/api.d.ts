@@ -43,16 +43,20 @@ export declare class API {
      * @param palette [The color palette]
      */
     initPalette(palette: string): void;
+    /********************************************************************
+     * Clear the screen with a specified color.
+     * @param color [index of the color in the palette]
+     /********************************************************************/
     cls(color: number): void;
-    /**
-     * Draw one pixel at a specific 2D location (x and y)
+    /********************************************************************
+     * Draw one pixel at a specific 2D location (x and y).
      * @param x0    [x coordinate of the pixel]
      * @param y0    [y coordinate of the pixel]
      * @param color [index of the color in the palette]
-     */
+     ********************************************************************/
     pix(x0: number, y0: number, color: number): void;
     /********************************************************************
-     * Create a circle outline with the Bresenham's circle algorithm
+     * Create a circle outline with the Bresenham's circle algorithm.
      * @param  x        [x coordinate of the center of the circle]
      * @param  y        [y coordinate of the center of the circle]
      * @param  r        [radius of the circle]
@@ -69,7 +73,7 @@ export declare class API {
      ********************************************************************/
     private circbPixGroup;
     /********************************************************************
-     * Create a filled circle with the Bresenham's circle algorithm
+     * Create a filled circle with the Bresenham's circle algorithm.
      * @param  x         [x coordinate of the center of the circle]
      * @param  y         [y coordinate of the center of the circle]
      * @param  r         [radius of the circle]
@@ -86,7 +90,7 @@ export declare class API {
      ********************************************************************/
     private circPixGroup;
     /********************************************************************
-     * Create a line with the Bresenham's line algorithm
+     * Create a line with the Bresenham's line algorithm.
      * @param x0 [the starting x position]
      * @param y0 [the starting y position]
      * @param x1 [the ending x position]

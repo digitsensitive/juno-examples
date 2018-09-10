@@ -32,6 +32,10 @@ export interface IGameConfig {
 }
 
 export class Game {
+  public isJunoRunning(): void {
+    console.log("Juno's running smoothly!");
+  }
+
   // canvas and renderer and scaling
   private canvas: HTMLCanvasElement;
   private renderer: any;

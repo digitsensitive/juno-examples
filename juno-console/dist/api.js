@@ -52,23 +52,27 @@ var API = /** @class */ (function () {
             fromPositionInString += 6;
         }
     };
+    /********************************************************************
+     * Clear the screen with a specified color.
+     * @param color [index of the color in the palette]
+     /********************************************************************/
     API.prototype.cls = function (color) {
         this.renderer.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.renderer.fillStyle = "#" + this.palette[color];
         this.renderer.fillRect(0, 0, this.canvas.width, this.canvas.height);
     };
-    /**
-     * Draw one pixel at a specific 2D location (x and y)
+    /********************************************************************
+     * Draw one pixel at a specific 2D location (x and y).
      * @param x0    [x coordinate of the pixel]
      * @param y0    [y coordinate of the pixel]
      * @param color [index of the color in the palette]
-     */
+     ********************************************************************/
     API.prototype.pix = function (x0, y0, color) {
         this.renderer.fillStyle = "#" + this.palette[color];
         this.renderer.fillRect(x0 * this.scaleFactor, y0 * this.scaleFactor, this.scaleFactor, this.scaleFactor);
     };
     /********************************************************************
-     * Create a circle outline with the Bresenham's circle algorithm
+     * Create a circle outline with the Bresenham's circle algorithm.
      * @param  x        [x coordinate of the center of the circle]
      * @param  y        [y coordinate of the center of the circle]
      * @param  r        [radius of the circle]
@@ -111,7 +115,7 @@ var API = /** @class */ (function () {
         this.pix(x0 - y, y0 - x, c);
     };
     /********************************************************************
-     * Create a filled circle with the Bresenham's circle algorithm
+     * Create a filled circle with the Bresenham's circle algorithm.
      * @param  x         [x coordinate of the center of the circle]
      * @param  y         [y coordinate of the center of the circle]
      * @param  r         [radius of the circle]
@@ -155,7 +159,7 @@ var API = /** @class */ (function () {
         this.pix(x0 - y, y0 - x, c);
     };
     /********************************************************************
-     * Create a line with the Bresenham's line algorithm
+     * Create a line with the Bresenham's line algorithm.
      * @param x0 [the starting x position]
      * @param y0 [the starting y position]
      * @param x1 [the ending x position]

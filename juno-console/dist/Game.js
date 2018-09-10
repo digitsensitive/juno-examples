@@ -54,6 +54,9 @@ var Game = /** @class */ (function () {
          */
         this.gameStates = [];
     }
+    Game.prototype.isJunoRunning = function () {
+        console.log("Juno's running smoothly!");
+    };
     /**
      * This function starts the game.
      * You have to define a name for the state and
