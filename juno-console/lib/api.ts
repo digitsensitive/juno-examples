@@ -340,7 +340,7 @@ export class API {
   }
 
   public spr(s: number, x0: number, y0: number): void {
-    this.canvas.style.imageRendering = "pixelated";
+    //this.canvas.style.imageRendering = "pixelated";
 
     /*-moz-crisp-edges;
             image-rendering: -webkit-crisp-edges;

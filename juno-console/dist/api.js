@@ -285,7 +285,11 @@ var API = /** @class */ (function () {
         this.spritesheets.push(image);
     };
     API.prototype.spr = function (s, x0, y0) {
-        this.renderer.style.imageRendering = "pixelated";
+        //this.canvas.style.imageRendering = "pixelated";
+        /*-moz-crisp-edges;
+                image-rendering: -webkit-crisp-edges;
+                image-rendering: pixelated;
+                image-rendering: crisp-edges;*/
         this.renderer.drawImage(this.spritesheets[0], 0, 0, 8, 8, x0 * this.scaleFactor, y0 * this.scaleFactor, 8 * this.scaleFactor, 8 * this.scaleFactor);
     };
     /********************************************************************
