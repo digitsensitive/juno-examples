@@ -157,12 +157,9 @@ var API = /** @class */ (function () {
      ********************************************************************/
     API.prototype.circPixGroup = function (x0, y0, x, y, c) {
         this.line(x0 - x, y0 + y, x0 + x, y0 + y, c);
-        this.pix(x0 + x, y0 - y, c);
-        this.pix(x0 - x, y0 - y, c);
-        this.pix(x0 + y, y0 + x, c);
-        this.pix(x0 - y, y0 + x, c);
-        this.pix(x0 + y, y0 - x, c);
-        this.pix(x0 - y, y0 - x, c);
+        this.line(x0 + x, y0 - y, x0 - x, y0 - y, c);
+        this.line(x0 + x, y0 + y, x0 - x, y0 + y, c);
+        this.line(x0 + x, y0 - y, x0 - x, y0 - y, c);
     };
     /********************************************************************
      * Create a line with the Bresenham's line algorithm.

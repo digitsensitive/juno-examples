@@ -4,6 +4,9 @@
  * @description  Circ example
  *
  * A small example to show how to use the api.circ() function.
+ * This example was rewritten from the TIC-80 Circ example writte in Lua:
+ * https://github.com/nesbox/TIC-80/wiki/circb
+ *
  * @license      Digitsensitive
  */
 
@@ -15,8 +18,8 @@ const config: Juno.IGameConfig = {
 };
 
 export class Game extends Juno.Game {
-  private x: number = 50;
-  private y: number = 30;
+  private a: number = 0;
+  private space: number = 10;
 
   constructor(config: Juno.IGameConfig) {
     super(config);
@@ -29,14 +32,21 @@ export class Game extends Juno.Game {
 
   private render(dt: number): void {
     this.api.cls(13);
-
-    for (let s = 280; s > 0; s -= 4) {
-      let s2 = s / 2;
-      let sd = 100 / s;
-      this.x = sd * Math.sin(performance.now() / 1000);
-      this.y = sd * Math.cos(performance.now() / 1000);
-      this.api.rectb(30 + this.x - s2, 30 + this.y - s2 / 2, s, s2, 8);
+    for (let i = 0; i < 200; i += this.space) {
+      this.api.circb(
+        15 + 10 * Math.sin(this.a),
+        7 + 5 * Math.cos(this.a),
+        i + ((performance.now() / 40) % this.space),
+        8
+      );
+      this.api.circb(
+        15 + 10 * Math.sin(this.a / 2),
+        7 + 5 * Math.cos(this.a / 2),
+        i + ((performance.now() / 40) % this.space),
+        8
+      );
     }
+    this.a = this.a + Math.PI / 240;
   }
 }
 
