@@ -42,7 +42,7 @@ export class Game extends Juno.Game {
   private render(dt: number): void {
     this.api.cls(13);
 
-    this.api.rectb(10, 10, 0, 0, 3);
+    this.api.rectb(10, 10, 2, 2, 15);
 
     for (let s = 280; s > 0; s -= 4) {
       let s2 = s / 2;

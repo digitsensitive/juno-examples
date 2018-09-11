@@ -47,14 +47,14 @@ export declare class API {
      * Clear the screen with a specified color.
      * @param color [index of the color in the palette]
      /********************************************************************/
-    cls(color: number): void;
+    cls(c: number): void;
     /********************************************************************
      * Draw one pixel at a specific 2D location (x and y).
      * @param x0    [x coordinate of the pixel]
      * @param y0    [y coordinate of the pixel]
      * @param color [index of the color in the palette]
      ********************************************************************/
-    pix(x0: number, y0: number, color: number): void;
+    pix(x0: number, y0: number, c: number): void;
     /********************************************************************
      * Create a circle outline with the Bresenham's circle algorithm.
      * @param  x        [x coordinate of the center of the circle]
@@ -104,18 +104,18 @@ export declare class API {
      * @param y0    [the y position of the rectangle]
      * @param w     [the width of the rectangle]
      * @param h     [the height of the rectangle]
-     * @param color [index of the color in the palette]
+     * @param c [index of the color in the palette]
      ********************************************************************/
-    rect(x0: number, y0: number, w: number, h: number, color: number): void;
+    rect(x0: number, y0: number, w: number, h: number, c: number): void;
     /********************************************************************
      * Draw a rectangle outline.
      * @param x0    [the x position of the rectangle]
      * @param y0    [the y position of the rectangle]
      * @param w     [the width of the rectangle]
      * @param h     [the height of the rectangle]
-     * @param color [index of the color in the palette]
+     * @param c [index of the color in the palette]
      ********************************************************************/
-    rectb(x0: number, y0: number, w: number, h: number, color: number): void;
+    rectb(x0: number, y0: number, w: number, h: number, c: number): void;
     /********************************************************************
      * Get the game width in pixels
      * @return [game width]
@@ -126,4 +126,9 @@ export declare class API {
      * @return [game height]
      ********************************************************************/
     ggh(): number;
+    /********************************************************************
+     * [colorRangeError description]
+     * @param color [description]
+     ********************************************************************/
+    private colorRangeError;
 }
