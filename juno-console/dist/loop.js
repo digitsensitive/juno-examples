@@ -51,6 +51,7 @@ var GameLoop = /** @class */ (function (_super) {
      * @param state [name of the state to start]
      */
     GameLoop.prototype.start = function (state) {
+        this.init();
         this.paused = false;
         this.currentTime = performance_now_1.ElapsedTime();
         this.accumulator = 0;
@@ -74,6 +75,12 @@ var GameLoop = /** @class */ (function (_super) {
             this.render(this.accumulator / this.step);
             requestAnimationFrame(this.frame.bind(this));
         }
+    };
+    /**
+     * Init the game
+     */
+    GameLoop.prototype.init = function () {
+        this.emit("init");
     };
     /**
      * Update the game

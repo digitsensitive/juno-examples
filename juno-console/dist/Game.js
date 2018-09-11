@@ -54,9 +54,6 @@ var Game = /** @class */ (function () {
          */
         this.gameStates = [];
     }
-    Game.prototype.isJunoRunning = function () {
-        console.log("Juno's running smoothly!");
-    };
     /**
      * This function starts the game.
      * You have to define a name for the state and
@@ -68,6 +65,9 @@ var Game = /** @class */ (function () {
         // add the game state to the array
         this.gameStates.push({ stateName: name, stateInstance: state });
         // register events for the game state
+        this.gameLoop.on("init", function () {
+            state.init();
+        }, state);
         this.gameLoop.on("update", function (dt) {
             state.update(dt);
         }, state);

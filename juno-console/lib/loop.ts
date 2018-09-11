@@ -46,6 +46,7 @@ export class GameLoop extends EventEmitter {
    * @param state [name of the state to start]
    */
   public start(state: string): void {
+    this.init();
     this.paused = false;
     this.currentTime = ElapsedTime();
     this.accumulator = 0;
@@ -74,6 +75,13 @@ export class GameLoop extends EventEmitter {
       this.render(this.accumulator / this.step);
       requestAnimationFrame(this.frame.bind(this));
     }
+  }
+
+  /**
+   * Init the game
+   */
+  private init(): void {
+    this.emit("init");
   }
 
   /**

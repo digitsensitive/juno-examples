@@ -23,7 +23,6 @@ export interface IGameConfig {
     height?: number;
 }
 export declare class Game {
-    isJunoRunning(): void;
     private canvas;
     private renderer;
     private scaleFactor;

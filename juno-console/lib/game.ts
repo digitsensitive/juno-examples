@@ -32,10 +32,6 @@ export interface IGameConfig {
 }
 
 export class Game {
-  public isJunoRunning(): void {
-    console.log("Juno's running smoothly!");
-  }
-
   // canvas and renderer and scaling
   private canvas: HTMLCanvasElement;
   private renderer: any;
@@ -100,6 +96,13 @@ export class Game {
     this.gameStates.push({ stateName: name, stateInstance: state });
 
     // register events for the game state
+    this.gameLoop.on(
+      "init",
+      function() {
+        state.init();
+      },
+      state
+    );
     this.gameLoop.on(
       "update",
       function(dt) {

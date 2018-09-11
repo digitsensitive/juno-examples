@@ -41,6 +41,10 @@ export declare class GameLoop extends EventEmitter {
      */
     private frame;
     /**
+     * Init the game
+     */
+    private init;
+    /**
      * Update the game
      * @param interval [interval in seconds]
      */
