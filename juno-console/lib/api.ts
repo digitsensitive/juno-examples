@@ -245,4 +245,28 @@ export class API {
       h * this.scaleFactor
     );
   }
+
+  /********************************************************************
+   * Draw a rectangle outline.
+   * @param x0    [description]
+   * @param y0    [description]
+   * @param w     [description]
+   * @param h     [description]
+   * @param color [description]
+   ********************************************************************/
+  public rectb(
+    x0: number,
+    y0: number,
+    w: number,
+    h: number,
+    color: number
+  ): void {
+    this.renderer.fillStyle = "#" + this.palette[color];
+    this.renderer.strokeRect(
+      x0 * this.scaleFactor,
+      y0 * this.scaleFactor,
+      w * this.scaleFactor,
+      h * this.scaleFactor
+    );
+  }
 }

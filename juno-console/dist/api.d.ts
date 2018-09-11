@@ -107,4 +107,13 @@ export declare class API {
      * @param color [description]
      ********************************************************************/
     rect(x0: number, y0: number, w: number, h: number, color: number): void;
+    /********************************************************************
+     * Draw a rectangle outline.
+     * @param x0    [description]
+     * @param y0    [description]
+     * @param w     [description]
+     * @param h     [description]
+     * @param color [description]
+     ********************************************************************/
+    rectb(x0: number, y0: number, w: number, h: number, color: number): void;
 }

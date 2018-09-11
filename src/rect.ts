@@ -33,9 +33,7 @@ export class Game extends Juno.Game {
   }
 
   private init() {
-    for (let x = 0; x < 20; x++) {
-      this.rectArray.push({ x: x * 3, y: 5, w: 2, h: 2, c: 2 });
-    }
+    this.rectArray.push({ x: 3, y: 5, w: 1, h: 1, c: 2 });
   }
 
   private update(dt: number): void {}
@@ -44,7 +42,7 @@ export class Game extends Juno.Game {
     this.api.cls(13);
 
     for (let i of this.rectArray) {
-      this.api.rect(i.x, i.y, i.w, i.h, i.c);
+      this.api.rectb(i.x, i.y, i.w, i.h, i.c);
     }
   }
 }

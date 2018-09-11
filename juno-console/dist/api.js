@@ -206,6 +206,18 @@ var API = /** @class */ (function () {
         this.renderer.fillStyle = "#" + this.palette[color];
         this.renderer.fillRect(x0 * this.scaleFactor, y0 * this.scaleFactor, w * this.scaleFactor, h * this.scaleFactor);
     };
+    /********************************************************************
+     * Draw a rectangle outline.
+     * @param x0    [description]
+     * @param y0    [description]
+     * @param w     [description]
+     * @param h     [description]
+     * @param color [description]
+     ********************************************************************/
+    API.prototype.rectb = function (x0, y0, w, h, color) {
+        this.renderer.fillStyle = "#" + this.palette[color];
+        this.renderer.strokeRect(x0 * this.scaleFactor, y0 * this.scaleFactor, w * this.scaleFactor, h * this.scaleFactor);
+    };
     return API;
 }());
 exports.API = API;
