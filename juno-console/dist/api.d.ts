@@ -125,6 +125,7 @@ export declare class API {
      * @param sc [scale factor of the text]
      ********************************************************************/
     print(s: string, x: number, y: number, c: number, sc?: number): void;
+    trace(s: string | number): void;
     /********************************************************************
      * Get the game width in pixels
      * @return [game width]

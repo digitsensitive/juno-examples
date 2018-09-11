@@ -311,6 +311,13 @@ export class API {
     );
   }
 
+  public trace(s: string | number): void {
+    if (typeof s === "number") {
+      s = s.toString();
+    }
+    this.print(s, 0, 0, 12);
+  }
+
   /********************************************************************
    * Get the game width in pixels
    * @return [game width]

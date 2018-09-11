@@ -266,6 +266,12 @@ var API = /** @class */ (function () {
         this.renderer.fillStyle = "#" + this.palette[c];
         this.renderer.fillText(s, x * this.scaleFactor, y * this.scaleFactor + size);
     };
+    API.prototype.trace = function (s) {
+        if (typeof s === "number") {
+            s = s.toString();
+        }
+        this.print(s, 0, 0, 12);
+    };
     /********************************************************************
      * Get the game width in pixels
      * @return [game width]

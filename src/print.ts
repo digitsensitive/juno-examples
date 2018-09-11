@@ -26,9 +26,10 @@ export class Game extends Juno.Game {
   private update(dt: number): void {}
 
   private render(dt: number): void {
-    this.api.cls(3);
+    this.api.cls(1);
 
-    this.api.print("Great job Eric!", 10, 30, 9, 1);
+    this.api.print("HELLO JUNO!", 16.1, 30.1, 4);
+    this.api.print("HELLO JUNO!", 16, 30, 12);
   }
 }
 
