@@ -10,6 +10,7 @@
 
 export class API {
   private palette: string[];
+  private spritesheets: any[] = [];
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -292,7 +293,13 @@ export class API {
    * @param c  [index of the color in the palette]
    * @param sc [scale factor of the text]
    ********************************************************************/
-  public print(s: string, x: number, y: number, c: number, sc?: number): void {
+  public print(
+    s: string,
+    x0: number,
+    y0: number,
+    c: number,
+    sc?: number
+  ): void {
     // evaluate runtime errors
     if (sc !== undefined && sc < 1) {
       throw new RangeError("The font size cannot be smaller than 1. ");
@@ -306,16 +313,50 @@ export class API {
     this.renderer.fillStyle = "#" + this.palette[c];
     this.renderer.fillText(
       s,
-      x * this.scaleFactor,
-      y * this.scaleFactor + size
+      x0 * this.scaleFactor,
+      y0 * this.scaleFactor + size
     );
   }
 
+  /********************************************************************
+   * Trace a string or a number => Alternative to console.log().
+   * @param s [the string or number to trace]
+   ********************************************************************/
   public trace(s: string | number): void {
     if (typeof s === "number") {
       s = s.toString();
     }
     this.print(s, 0, 0, 12);
+  }
+
+  public load(n: string, p: string): void {
+    let image = new Image();
+
+    let nameWithPNG = n + ".png";
+    let fullPath = p + nameWithPNG;
+
+    image.src = fullPath;
+    this.spritesheets.push(image);
+  }
+
+  public spr(s: number, x0: number, y0: number): void {
+    this.canvas.style.imageRendering = "pixelated";
+
+    /*-moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;*/
+    this.renderer.drawImage(
+      this.spritesheets[0],
+      0,
+      0,
+      8,
+      8,
+      x0 * this.scaleFactor,
+      y0 * this.scaleFactor,
+      8 * this.scaleFactor,
+      8 * this.scaleFactor
+    );
   }
 
   /********************************************************************

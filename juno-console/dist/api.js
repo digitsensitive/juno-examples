@@ -14,6 +14,7 @@ var API = /** @class */ (function () {
         this.canvas = canvas;
         this.renderer = renderer;
         this.scaleFactor = scaleFactor;
+        this.spritesheets = [];
     }
     /**
      * Init color palette with chain hex color string
@@ -252,7 +253,7 @@ var API = /** @class */ (function () {
      * @param c  [index of the color in the palette]
      * @param sc [scale factor of the text]
      ********************************************************************/
-    API.prototype.print = function (s, x, y, c, sc) {
+    API.prototype.print = function (s, x0, y0, c, sc) {
         // evaluate runtime errors
         if (sc !== undefined && sc < 1) {
             throw new RangeError("The font size cannot be smaller than 1. ");
@@ -264,13 +265,28 @@ var API = /** @class */ (function () {
         var size = sc * 3 * this.scaleFactor || 3 * this.scaleFactor;
         this.renderer.font = size + "px Juno";
         this.renderer.fillStyle = "#" + this.palette[c];
-        this.renderer.fillText(s, x * this.scaleFactor, y * this.scaleFactor + size);
+        this.renderer.fillText(s, x0 * this.scaleFactor, y0 * this.scaleFactor + size);
     };
+    /********************************************************************
+     * Trace a string or a number => Alternative to console.log().
+     * @param s [the string or number to trace]
+     ********************************************************************/
     API.prototype.trace = function (s) {
         if (typeof s === "number") {
             s = s.toString();
         }
         this.print(s, 0, 0, 12);
+    };
+    API.prototype.load = function (n, p) {
+        var image = new Image();
+        var nameWithPNG = n + ".png";
+        var fullPath = p + nameWithPNG;
+        image.src = fullPath;
+        this.spritesheets.push(image);
+    };
+    API.prototype.spr = function (s, x0, y0) {
+        this.renderer.style.imageRendering = "pixelated";
+        this.renderer.drawImage(this.spritesheets[0], 0, 0, 8, 8, x0 * this.scaleFactor, y0 * this.scaleFactor, 8 * this.scaleFactor, 8 * this.scaleFactor);
     };
     /********************************************************************
      * Get the game width in pixels

@@ -12,6 +12,7 @@ export declare class API {
     private renderer;
     private scaleFactor;
     private palette;
+    private spritesheets;
     constructor(canvas: HTMLCanvasElement, renderer: any, scaleFactor: number);
     /**
      * Init color palette with chain hex color string
@@ -124,8 +125,14 @@ export declare class API {
      * @param c  [index of the color in the palette]
      * @param sc [scale factor of the text]
      ********************************************************************/
-    print(s: string, x: number, y: number, c: number, sc?: number): void;
+    print(s: string, x0: number, y0: number, c: number, sc?: number): void;
+    /********************************************************************
+     * Trace a string or a number => Alternative to console.log().
+     * @param s [the string or number to trace]
+     ********************************************************************/
     trace(s: string | number): void;
+    load(n: string, p: string): void;
+    spr(s: number, x0: number, y0: number): void;
     /********************************************************************
      * Get the game width in pixels
      * @return [game width]
