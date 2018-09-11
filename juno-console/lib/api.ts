@@ -59,9 +59,12 @@ export class API {
    * Clear the screen with a specified color.
    * @param color [index of the color in the palette]
    /********************************************************************/
-  public cls(color: number): void {
+  public cls(c: number): void {
+    // evaluate runtime errors
+    this.colorRangeError(c);
+
     this.renderer.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.renderer.fillStyle = "#" + this.palette[color];
+    this.renderer.fillStyle = "#" + this.palette[c];
     this.renderer.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
@@ -71,8 +74,11 @@ export class API {
    * @param y0    [y coordinate of the pixel]
    * @param color [index of the color in the palette]
    ********************************************************************/
-  public pix(x0: number, y0: number, color: number): void {
-    this.renderer.fillStyle = "#" + this.palette[color];
+  public pix(x0: number, y0: number, c: number): void {
+    // evaluate runtime errors
+    this.colorRangeError(c);
+
+    this.renderer.fillStyle = "#" + this.palette[c];
     this.renderer.fillRect(
       x0 * this.scaleFactor,
       y0 * this.scaleFactor,
@@ -89,6 +95,9 @@ export class API {
    * @param  c        [index of the color in the palette]
    ********************************************************************/
   public circb(x0: number, y0: number, r: number, c: number): void {
+    // evaluate runtime errors
+    this.colorRangeError(c);
+
     let x = 0;
     let y = r;
     let p = 3 - 2 * r;
@@ -140,6 +149,9 @@ export class API {
    * @param  c         [index of the color in the palette]
    ********************************************************************/
   public circ(x0: number, y0: number, r: number, c: number): void {
+    // evaluate runtime errors
+    this.colorRangeError(c);
+
     let x = 0;
     let y = r;
     let p = 3 - 2 * r;
@@ -193,6 +205,9 @@ export class API {
    * @param c  [index of the color in the palette]
    ********************************************************************/
   public line(x0: number, y0: number, x1: number, y1: number, c: number): void {
+    // evaluate runtime errors
+    this.colorRangeError(c);
+
     x0 = Math.ceil(x0);
     y0 = Math.ceil(y0);
     x1 = Math.ceil(x1);
@@ -228,22 +243,18 @@ export class API {
    * @param y0    [the y position of the rectangle]
    * @param w     [the width of the rectangle]
    * @param h     [the height of the rectangle]
-   * @param color [index of the color in the palette]
+   * @param c [index of the color in the palette]
    ********************************************************************/
-  public rect(
-    x0: number,
-    y0: number,
-    w: number,
-    h: number,
-    color: number
-  ): void {
+  public rect(x0: number, y0: number, w: number, h: number, c: number): void {
+    // evaluate runtime errors
     if (w <= 0) {
       throw new RangeError("The width of a rectangle must be > 0. ");
     } else if (h <= 0) {
       throw new RangeError("The height of a rectangle must be > 0. ");
     }
+    this.colorRangeError(c);
 
-    this.renderer.fillStyle = "#" + this.palette[color];
+    this.renderer.fillStyle = "#" + this.palette[c];
     this.renderer.fillRect(
       x0 * this.scaleFactor,
       y0 * this.scaleFactor,
@@ -258,25 +269,21 @@ export class API {
    * @param y0    [the y position of the rectangle]
    * @param w     [the width of the rectangle]
    * @param h     [the height of the rectangle]
-   * @param color [index of the color in the palette]
+   * @param c [index of the color in the palette]
    ********************************************************************/
-  public rectb(
-    x0: number,
-    y0: number,
-    w: number,
-    h: number,
-    color: number
-  ): void {
+  public rectb(x0: number, y0: number, w: number, h: number, c: number): void {
+    // evaluate runtime errors
     if (w <= 0) {
       throw new RangeError("The width of a rectangle must be > 0. ");
     } else if (h <= 0) {
       throw new RangeError("The height of a rectangle must be > 0. ");
     }
+    this.colorRangeError(c);
 
     for (let x = 0; x < w; x++) {
       for (let y = 0; y < h; y++) {
         if (x === 0 || y === 0 || x === w - 1 || y === h - 1) {
-          this.pix(x0 + x, y0 + y, color);
+          this.pix(x0 + x, y0 + y, c);
         }
       }
     }
@@ -296,5 +303,17 @@ export class API {
    ********************************************************************/
   public ggh(): number {
     return this.canvas.height / this.scaleFactor;
+  }
+
+  /********************************************************************
+   * [colorRangeError description]
+   * @param color [description]
+   ********************************************************************/
+  private colorRangeError(color: number): void {
+    if (color < 0 || color > 15) {
+      throw new RangeError(
+        "You have selected an incorrect color index. The color must be between 0-15"
+      );
+    }
   }
 }
