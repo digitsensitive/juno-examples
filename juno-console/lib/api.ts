@@ -186,13 +186,14 @@ export class API {
     c: number
   ): void {
     this.line(x0 - x, y0 + y, x0 + x, y0 + y, c);
-    this.pix(x0 + x, y0 + y, c);
+
     this.pix(x0 + x, y0 - y, c);
-    this.pix(x0 - x, y0 + y, c);
     this.pix(x0 - x, y0 - y, c);
+
     this.pix(x0 + y, y0 + x, c);
-    this.pix(x0 + y, y0 - x, c);
     this.pix(x0 - y, y0 + x, c);
+
+    this.pix(x0 + y, y0 - x, c);
     this.pix(x0 - y, y0 - x, c);
   }
 
