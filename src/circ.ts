@@ -23,7 +23,7 @@ export class Game extends Juno.Game {
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.startGame("Rect", this);
+    this.startGame("Circ", this);
   }
 
   private init() {}
@@ -31,7 +31,7 @@ export class Game extends Juno.Game {
   private update(dt: number): void {}
 
   private render(dt: number): void {
-    this.api.cls(13);
+    this.api.cls(3);
     for (let i = 0; i < 200; i += this.space) {
       this.api.circb(
         15 + 10 * Math.sin(this.a),
@@ -43,7 +43,7 @@ export class Game extends Juno.Game {
         15 + 10 * Math.sin(this.a / 2),
         7 + 5 * Math.cos(this.a / 2),
         i + ((performance.now() / 40) % this.space),
-        8
+        10
       );
     }
     this.a = this.a + Math.PI / 240;

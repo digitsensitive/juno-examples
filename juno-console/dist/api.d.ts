@@ -113,9 +113,18 @@ export declare class API {
      * @param y0    [the y position of the rectangle]
      * @param w     [the width of the rectangle]
      * @param h     [the height of the rectangle]
-     * @param c [index of the color in the palette]
+     * @param c     [index of the color in the palette]
      ********************************************************************/
     rectb(x0: number, y0: number, w: number, h: number, c: number): void;
+    /********************************************************************
+     * Print text.
+     * @param s  [string to print]
+     * @param x  [x position of the text]
+     * @param y  [y position of the text]
+     * @param c  [index of the color in the palette]
+     * @param sc [scale factor of the text]
+     ********************************************************************/
+    print(s: string, x: number, y: number, c: number, sc?: number): void;
     /********************************************************************
      * Get the game width in pixels
      * @return [game width]

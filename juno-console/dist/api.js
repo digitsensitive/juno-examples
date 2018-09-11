@@ -225,7 +225,7 @@ var API = /** @class */ (function () {
      * @param y0    [the y position of the rectangle]
      * @param w     [the width of the rectangle]
      * @param h     [the height of the rectangle]
-     * @param c [index of the color in the palette]
+     * @param c     [index of the color in the palette]
      ********************************************************************/
     API.prototype.rectb = function (x0, y0, w, h, c) {
         // evaluate runtime errors
@@ -243,6 +243,28 @@ var API = /** @class */ (function () {
                 }
             }
         }
+    };
+    /********************************************************************
+     * Print text.
+     * @param s  [string to print]
+     * @param x  [x position of the text]
+     * @param y  [y position of the text]
+     * @param c  [index of the color in the palette]
+     * @param sc [scale factor of the text]
+     ********************************************************************/
+    API.prototype.print = function (s, x, y, c, sc) {
+        // evaluate runtime errors
+        if (sc !== undefined && sc < 1) {
+            throw new RangeError("The font size cannot be smaller than 1. ");
+        }
+        else if (s.length === 0) {
+            throw new RangeError("The font length must be longer than 0. ");
+        }
+        this.colorRangeError(c);
+        var size = sc * 3 * this.scaleFactor || 3 * this.scaleFactor;
+        this.renderer.font = size + "px Juno";
+        this.renderer.fillStyle = "#" + this.palette[c];
+        this.renderer.fillText(s, x * this.scaleFactor, y * this.scaleFactor + size);
     };
     /********************************************************************
      * Get the game width in pixels
