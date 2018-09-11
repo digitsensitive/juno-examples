@@ -100,20 +100,30 @@ export declare class API {
     line(x0: number, y0: number, x1: number, y1: number, c: number): void;
     /********************************************************************
      * Draw a filled rectangle.
-     * @param x0    [description]
-     * @param y0    [description]
-     * @param w     [description]
-     * @param h     [description]
-     * @param color [description]
+     * @param x0    [the x position of the rectangle]
+     * @param y0    [the y position of the rectangle]
+     * @param w     [the width of the rectangle]
+     * @param h     [the height of the rectangle]
+     * @param color [index of the color in the palette]
      ********************************************************************/
     rect(x0: number, y0: number, w: number, h: number, color: number): void;
     /********************************************************************
      * Draw a rectangle outline.
-     * @param x0    [description]
-     * @param y0    [description]
-     * @param w     [description]
-     * @param h     [description]
-     * @param color [description]
+     * @param x0    [the x position of the rectangle]
+     * @param y0    [the y position of the rectangle]
+     * @param w     [the width of the rectangle]
+     * @param h     [the height of the rectangle]
+     * @param color [index of the color in the palette]
      ********************************************************************/
     rectb(x0: number, y0: number, w: number, h: number, color: number): void;
+    /********************************************************************
+     * Get the game width in pixels
+     * @return [game width]
+     ********************************************************************/
+    ggw(): number;
+    /********************************************************************
+     * Get the game height in pixels
+     * @return [game height]
+     ********************************************************************/
+    ggh(): number;
 }

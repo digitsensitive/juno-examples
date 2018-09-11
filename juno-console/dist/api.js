@@ -196,27 +196,58 @@ var API = /** @class */ (function () {
     };
     /********************************************************************
      * Draw a filled rectangle.
-     * @param x0    [description]
-     * @param y0    [description]
-     * @param w     [description]
-     * @param h     [description]
-     * @param color [description]
+     * @param x0    [the x position of the rectangle]
+     * @param y0    [the y position of the rectangle]
+     * @param w     [the width of the rectangle]
+     * @param h     [the height of the rectangle]
+     * @param color [index of the color in the palette]
      ********************************************************************/
     API.prototype.rect = function (x0, y0, w, h, color) {
+        if (w <= 0) {
+            throw new RangeError("The width of a rectangle must be > 0. ");
+        }
+        else if (h <= 0) {
+            throw new RangeError("The height of a rectangle must be > 0. ");
+        }
         this.renderer.fillStyle = "#" + this.palette[color];
         this.renderer.fillRect(x0 * this.scaleFactor, y0 * this.scaleFactor, w * this.scaleFactor, h * this.scaleFactor);
     };
     /********************************************************************
      * Draw a rectangle outline.
-     * @param x0    [description]
-     * @param y0    [description]
-     * @param w     [description]
-     * @param h     [description]
-     * @param color [description]
+     * @param x0    [the x position of the rectangle]
+     * @param y0    [the y position of the rectangle]
+     * @param w     [the width of the rectangle]
+     * @param h     [the height of the rectangle]
+     * @param color [index of the color in the palette]
      ********************************************************************/
     API.prototype.rectb = function (x0, y0, w, h, color) {
-        this.renderer.fillStyle = "#" + this.palette[color];
-        this.renderer.strokeRect(x0 * this.scaleFactor, y0 * this.scaleFactor, w * this.scaleFactor, h * this.scaleFactor);
+        if (w <= 0) {
+            throw new RangeError("The width of a rectangle must be > 0. ");
+        }
+        else if (h <= 0) {
+            throw new RangeError("The height of a rectangle must be > 0. ");
+        }
+        for (var x = 0; x < w; x++) {
+            for (var y = 0; y < h; y++) {
+                if (x === 0 || y === 0 || x === w - 1 || y === h - 1) {
+                    this.pix(x0 + x, y0 + y, color);
+                }
+            }
+        }
+    };
+    /********************************************************************
+     * Get the game width in pixels
+     * @return [game width]
+     ********************************************************************/
+    API.prototype.ggw = function () {
+        return this.canvas.width / this.scaleFactor;
+    };
+    /********************************************************************
+     * Get the game height in pixels
+     * @return [game height]
+     ********************************************************************/
+    API.prototype.ggh = function () {
+        return this.canvas.height / this.scaleFactor;
     };
     return API;
 }());
