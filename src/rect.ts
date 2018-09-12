@@ -23,7 +23,10 @@ export class Game extends Juno.Game {
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.startGame("Rect", this);
+    this.addState({
+      name: "Rect",
+      instance: this
+    });
   }
 
   private init() {}

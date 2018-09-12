@@ -18,7 +18,10 @@ const config: Juno.IGameConfig = {
 export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.startGame("Spr", this);
+    this.addState({
+      name: "Spr",
+      instance: this
+    });
   }
 
   private init() {

@@ -1,7 +1,7 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Juno: API functions
+ * @description  Juno Core: API functions
  *
  * Here you will find the core functions of Juno.
  *
@@ -18,7 +18,7 @@ export class API {
 
   constructor(private cr: ICanvasRenderer, private inputs: Input) {}
 
-  /**
+  /********************************************************************
    * Init color palette with chain hex color string
    * Total 16 colors: 6 * 16 = 96 (string length)
    * Examples:
@@ -46,7 +46,7 @@ export class API {
    * 000000111111222222333333444444555555666666777777888888999999aaaaaabbbbbbccccccddddddeeeeeeffffff
    *
    * @param palette [index of the color in the palette]
-   */
+   ********************************************************************/
   public ipal(palette: string): void {
     this.palette = [];
     let fromPositionInString = 0;

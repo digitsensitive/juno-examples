@@ -1,7 +1,7 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Juno: Game Class
+ * @description  Juno Core: Game Class
  *
  * This is the core game class of Juno.
  * It initialize the canvas, the renderer and the game loop.
@@ -20,11 +20,8 @@ import { API } from "./api";
 import { GameLoop } from "./loop";
 import { IGameConfig } from "../interfaces/game-config.interface";
 import { Input } from "./input";
+import { IState } from "../interfaces/state.interface";
 
-interface IState {
-  stateName: string;
-  stateInstance: any;
-}
 export class Game {
   // canvas and renderer and scaling
   private canvas: HTMLCanvasElement;
@@ -34,7 +31,7 @@ export class Game {
   // core juno game classes
   public api: API;
   private gameLoop: GameLoop;
-  private gameStates: IState[];
+  private states: IState[];
   private inputs: Input;
 
   constructor(config: IGameConfig) {
@@ -106,44 +103,44 @@ export class Game {
     /**
      * Array with the game states
      */
-    this.gameStates = [];
+    this.states = [];
   }
 
-  /**
-   * This function starts the game.
+  /********************************************************************
+   * This function adds a game state.
    * You have to define a name for the state and
-   * send the reference to the current game state.
-   * @param name      [the name of the game state]
-   * @param state     [the reference to the game state]
-   */
-  public startGame(name: string, state: any): void {
-    // add the game state to the array
-    this.gameStates.push({ stateName: name, stateInstance: state });
+   * send the reference to the current state.
+   * @param name      [the name of the state]
+   * @param state     [the reference to the state]
+   ********************************************************************/
+  public addState(state: IState): void {
+    // add state to states array
+    this.states.push(state);
 
-    // register events for the game state
+    // register events for the state
     this.gameLoop.on(
       "init",
       function() {
-        state.init();
+        state.instance.init();
       },
-      state
+      state.instance
     );
     this.gameLoop.on(
       "update",
       function(dt) {
-        state.update(dt);
+        state.instance.update(dt);
       },
-      state
+      state.instance
     );
     this.gameLoop.on(
       "render",
       function(dt) {
-        state.render(dt);
+        state.instance.render(dt);
       },
-      state
+      state.instance
     );
 
     // start the game loop with this state
-    this.gameLoop.start(name);
+    this.gameLoop.start(state.name);
   }
 }

@@ -24,7 +24,10 @@ export class Game extends Juno.Game {
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.startGame("Mouse", this);
+    this.addState({
+      name: "Mouse",
+      instance: this
+    });
   }
 
   private init() {}

@@ -2,7 +2,7 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Juno: API functions
+ * @description  Juno Core: API functions
  *
  * Here you will find the core functions of Juno.
  *
@@ -15,7 +15,7 @@ var API = /** @class */ (function () {
         this.inputs = inputs;
         this.spritesheets = [];
     }
-    /**
+    /********************************************************************
      * Init color palette with chain hex color string
      * Total 16 colors: 6 * 16 = 96 (string length)
      * Examples:
@@ -43,7 +43,7 @@ var API = /** @class */ (function () {
      * 000000111111222222333333444444555555666666777777888888999999aaaaaabbbbbbccccccddddddeeeeeeffffff
      *
      * @param palette [index of the color in the palette]
-     */
+     ********************************************************************/
     API.prototype.ipal = function (palette) {
         this.palette = [];
         var fromPositionInString = 0;

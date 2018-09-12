@@ -2,7 +2,7 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Juno: Game Class
+ * @description  Juno Core: Game Class
  *
  * This is the core game class of Juno.
  * It initialize the canvas, the renderer and the game loop.
@@ -76,30 +76,30 @@ var Game = /** @class */ (function () {
         /**
          * Array with the game states
          */
-        this.gameStates = [];
+        this.states = [];
     }
-    /**
-     * This function starts the game.
+    /********************************************************************
+     * This function adds a game state.
      * You have to define a name for the state and
-     * send the reference to the current game state.
-     * @param name      [the name of the game state]
-     * @param state     [the reference to the game state]
-     */
-    Game.prototype.startGame = function (name, state) {
-        // add the game state to the array
-        this.gameStates.push({ stateName: name, stateInstance: state });
-        // register events for the game state
+     * send the reference to the current state.
+     * @param name      [the name of the state]
+     * @param state     [the reference to the state]
+     ********************************************************************/
+    Game.prototype.addState = function (state) {
+        // add state to states array
+        this.states.push(state);
+        // register events for the state
         this.gameLoop.on("init", function () {
-            state.init();
-        }, state);
+            state.instance.init();
+        }, state.instance);
         this.gameLoop.on("update", function (dt) {
-            state.update(dt);
-        }, state);
+            state.instance.update(dt);
+        }, state.instance);
         this.gameLoop.on("render", function (dt) {
-            state.render(dt);
-        }, state);
+            state.instance.render(dt);
+        }, state.instance);
         // start the game loop with this state
-        this.gameLoop.start(name);
+        this.gameLoop.start(state.name);
     };
     return Game;
 }());

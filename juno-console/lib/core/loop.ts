@@ -1,7 +1,7 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Juno: Game Loop
+ * @description  Juno Core: Game Loop
  *
  * This is the core game loop of the juno html5 game framework.
  * Juno uses a fixed update time step with a variable rendering. This

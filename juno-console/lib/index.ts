@@ -7,8 +7,8 @@
 
 // juno core
 export * from "./core/game";
-export * from "./core/loop";
 export * from "./core/api";
+export * from "./core/state";
 
 // juno polyfills
 export * from "./polyfills/performance.now";

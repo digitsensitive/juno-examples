@@ -11,7 +11,7 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // juno core
 __export(require("./core/game"));
-__export(require("./core/loop"));
 __export(require("./core/api"));
+__export(require("./core/state"));
 // juno polyfills
 __export(require("./polyfills/performance.now"));

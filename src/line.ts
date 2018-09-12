@@ -24,7 +24,10 @@ export class Game extends Juno.Game {
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.startGame("Line", this);
+    this.addState({
+      name: "Line",
+      instance: this
+    });
   }
 
   private update(dt: number): void {}
