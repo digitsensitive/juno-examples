@@ -18,19 +18,13 @@
 
 import { API } from "./api";
 import { GameLoop } from "./loop";
+import { IGameConfig } from "../interfaces/game-config.interface";
+import { Input } from "./input";
 
 interface IState {
   stateName: string;
   stateInstance: any;
 }
-
-export interface IGameConfig {
-  name: string;
-  scale: number;
-  width?: number;
-  height?: number;
-}
-
 export class Game {
   // canvas and renderer and scaling
   private canvas: HTMLCanvasElement;
@@ -41,6 +35,7 @@ export class Game {
   public api: API;
   private gameLoop: GameLoop;
   private gameStates: IState[];
+  private inputs: Input;
 
   constructor(config: IGameConfig) {
     /**
@@ -48,6 +43,7 @@ export class Game {
      */
     this.canvas = document.createElement("canvas");
     document.getElementById(config.name).appendChild(this.canvas);
+    this.canvas.style.cursor = "none";
 
     /**
      * Init renderer
@@ -71,9 +67,38 @@ export class Game {
     this.gameLoop = new GameLoop();
 
     /**
+     * Set Input
+     */
+    this.inputs = new Input({
+      canvas: this.canvas,
+      renderer: this.renderer,
+      options: {
+        scaleFactor: this.scaleFactor,
+        inputs: {
+          keyboard:
+            config.allowedInputs.keyboard !== undefined
+              ? config.allowedInputs.keyboard
+              : true,
+          mouse:
+            config.allowedInputs.mouse !== undefined
+              ? config.allowedInputs.mouse
+              : false
+        }
+      }
+    });
+
+    /**
      * Init an API instance
      */
-    this.api = new API(this.canvas, this.renderer, this.scaleFactor);
+
+    this.api = new API(
+      {
+        canvas: this.canvas,
+        renderer: this.renderer,
+        options: { scaleFactor: this.scaleFactor }
+      },
+      this.inputs
+    );
     this.api.ipal(
       "140C1C44243430346D4E4A4F854C30346524D04648757161597DCED27D2C8595A16DAA2CD2AA996DC2CADAD45EDEEED6"
     );

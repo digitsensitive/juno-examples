@@ -16,7 +16,7 @@
  * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
 import { API } from "./api";
-import { IGameConfig } from "./interfaces/game-config.interface";
+import { IGameConfig } from "../interfaces/game-config.interface";
 export declare class Game {
     private canvas;
     private renderer;

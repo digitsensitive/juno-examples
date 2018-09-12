@@ -19,7 +19,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var api_1 = require("./api");
 var loop_1 = require("./loop");
-var input_1 = require("./input/input");
+var input_1 = require("./input");
 var Game = /** @class */ (function () {
     function Game(config) {
         /**

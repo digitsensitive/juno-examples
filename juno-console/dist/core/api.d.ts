@@ -7,9 +7,9 @@
  *
  * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
-import { ICanvasRenderer } from "./interfaces/canvas-renderer.interface";
-import { Input } from "./input/input";
-import { IMouseCoordinates } from "./interfaces/mouse-coordinates.interface";
+import { ICanvasRenderer } from "../interfaces/canvas-renderer.interface";
+import { Input } from "./input";
+import { IMouseCoordinates } from "../interfaces/mouse-coordinates.interface";
 export declare class API {
     private cr;
     private inputs;

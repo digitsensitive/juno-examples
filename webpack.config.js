@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/spr.ts',
+  entry: './src/mouse.ts',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'

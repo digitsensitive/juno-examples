@@ -8,15 +8,15 @@
  * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
 
+import { ICanvasRenderer } from "../interfaces/canvas-renderer.interface";
+import { Input } from "./input";
+import { IMouseCoordinates } from "../interfaces/mouse-coordinates.interface";
+
 export class API {
   private palette: string[];
   private spritesheets: any[] = [];
 
-  constructor(
-    private canvas: HTMLCanvasElement,
-    private renderer: any,
-    private scaleFactor: number
-  ) {}
+  constructor(private cr: ICanvasRenderer, private inputs: Input) {}
 
   /**
    * Init color palette with chain hex color string
@@ -64,9 +64,19 @@ export class API {
     // evaluate runtime errors
     this.colorRangeError(c);
 
-    this.renderer.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.renderer.fillStyle = "#" + this.palette[c];
-    this.renderer.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.cr.renderer.clearRect(
+      0,
+      0,
+      this.cr.canvas.width,
+      this.cr.canvas.height
+    );
+    this.cr.renderer.fillStyle = "#" + this.palette[c];
+    this.cr.renderer.fillRect(
+      0,
+      0,
+      this.cr.canvas.width,
+      this.cr.canvas.height
+    );
   }
 
   /********************************************************************
@@ -79,12 +89,12 @@ export class API {
     // evaluate runtime errors
     this.colorRangeError(c);
 
-    this.renderer.fillStyle = "#" + this.palette[c];
-    this.renderer.fillRect(
-      x0 * this.scaleFactor,
-      y0 * this.scaleFactor,
-      this.scaleFactor,
-      this.scaleFactor
+    this.cr.renderer.fillStyle = "#" + this.palette[c];
+    this.cr.renderer.fillRect(
+      x0 * this.cr.options.scaleFactor,
+      y0 * this.cr.options.scaleFactor,
+      this.cr.options.scaleFactor,
+      this.cr.options.scaleFactor
     );
   }
 
@@ -250,12 +260,12 @@ export class API {
     }
     this.colorRangeError(c);
 
-    this.renderer.fillStyle = "#" + this.palette[c];
-    this.renderer.fillRect(
-      x0 * this.scaleFactor,
-      y0 * this.scaleFactor,
-      w * this.scaleFactor,
-      h * this.scaleFactor
+    this.cr.renderer.fillStyle = "#" + this.palette[c];
+    this.cr.renderer.fillRect(
+      x0 * this.cr.options.scaleFactor,
+      y0 * this.cr.options.scaleFactor,
+      w * this.cr.options.scaleFactor,
+      h * this.cr.options.scaleFactor
     );
   }
 
@@ -308,13 +318,14 @@ export class API {
     }
     this.colorRangeError(c);
 
-    let size = sc * 3 * this.scaleFactor || 3 * this.scaleFactor;
-    this.renderer.font = size + "px Juno";
-    this.renderer.fillStyle = "#" + this.palette[c];
-    this.renderer.fillText(
+    let size =
+      sc * 3 * this.cr.options.scaleFactor || 3 * this.cr.options.scaleFactor;
+    this.cr.renderer.font = size + "px Juno";
+    this.cr.renderer.fillStyle = "#" + this.palette[c];
+    this.cr.renderer.fillText(
       s,
-      x0 * this.scaleFactor,
-      y0 * this.scaleFactor + size
+      x0 * this.cr.options.scaleFactor,
+      y0 * this.cr.options.scaleFactor + size
     );
   }
 
@@ -346,17 +357,26 @@ export class API {
             image-rendering: -webkit-crisp-edges;
             image-rendering: pixelated;
             image-rendering: crisp-edges;*/
-    this.renderer.drawImage(
+    this.cr.renderer.drawImage(
       this.spritesheets[0],
       0,
       0,
       8,
       8,
-      x0 * this.scaleFactor,
-      y0 * this.scaleFactor,
-      8 * this.scaleFactor,
-      8 * this.scaleFactor
+      x0 * this.cr.options.scaleFactor,
+      y0 * this.cr.options.scaleFactor,
+      8 * this.cr.options.scaleFactor,
+      8 * this.cr.options.scaleFactor
     );
+  }
+
+  /********************************************************************
+   * Return the mouse coordinates.
+   * @param  e [description]
+   * @return   [The mouse coordinates]
+   ********************************************************************/
+  public mouse(): IMouseCoordinates {
+    return this.inputs.getMousePosition();
   }
 
   /********************************************************************
@@ -364,7 +384,7 @@ export class API {
    * @return [game width]
    ********************************************************************/
   public ggw(): number {
-    return this.canvas.width / this.scaleFactor;
+    return this.cr.canvas.width / this.cr.options.scaleFactor;
   }
 
   /********************************************************************
@@ -372,7 +392,7 @@ export class API {
    * @return [game height]
    ********************************************************************/
   public ggh(): number {
-    return this.canvas.height / this.scaleFactor;
+    return this.cr.canvas.height / this.cr.options.scaleFactor;
   }
 
   /********************************************************************
