@@ -22,11 +22,29 @@ var Input = /** @class */ (function () {
             });
             // TODO: Add more event listener f.e. mousedown, mouseup ...
         }
+        if (this.cr.options.inputs.keyboard) {
+            window.addEventListener("keydown", function (e) {
+                _this.lastKeyPressed = e.keyCode;
+            });
+            window.addEventListener("keyup", function (e) {
+                _this.lastKeyPressed = undefined;
+            });
+        }
     };
     Input.prototype.getMousePosition = function () {
         return this.mouse;
     };
+    Input.prototype.getLastPressedKey = function () {
+        return this.lastKeyPressed;
+    };
+    Input.prototype.justDown = function (key) {
+        if (key === this.lastKeyPressed) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     return Input;
 }());
 exports.Input = Input;
-// TODO: Add other inputs (keyboard, touch ...)

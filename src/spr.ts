@@ -12,7 +12,7 @@ import * as Juno from "../juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
-  allowedInputs: {},
+  allowedInputs: { keyboard: true },
   scale: 8
 };
 

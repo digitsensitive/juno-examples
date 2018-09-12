@@ -10,6 +10,7 @@ import { IMouseCoordinates } from "../interfaces/mouse-coordinates.interface";
 
 export class Input {
   private mouse: IMouseCoordinates = {} as IMouseCoordinates;
+  private lastKeyPressed: number;
 
   constructor(private cr: ICanvasRenderer) {
     this.registerEvents();
@@ -24,11 +25,30 @@ export class Input {
       });
       // TODO: Add more event listener f.e. mousedown, mouseup ...
     }
+
+    if (this.cr.options.inputs.keyboard) {
+      window.addEventListener("keydown", e => {
+        this.lastKeyPressed = e.keyCode;
+      });
+      window.addEventListener("keyup", e => {
+        this.lastKeyPressed = undefined;
+      });
+    }
   }
 
   public getMousePosition(): IMouseCoordinates {
     return this.mouse;
   }
-}
 
-// TODO: Add other inputs (keyboard, touch ...)
+  public getLastPressedKey(): number {
+    return this.lastKeyPressed;
+  }
+
+  public justDown(key: number): boolean {
+    if (key === this.lastKeyPressed) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}

@@ -13,4 +13,5 @@ export interface IGameConfig {
     };
     width?: number;
     height?: number;
+    fullscreen?: boolean;
 }

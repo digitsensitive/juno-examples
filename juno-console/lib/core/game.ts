@@ -58,6 +58,11 @@ export class Game {
     this.canvas.height =
       config.height * this.scaleFactor || 64 * this.scaleFactor;
 
+    if (config.fullscreen) {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    }
+
     /**
      * Init instance of game loop
      */

@@ -14,6 +14,7 @@ var API = /** @class */ (function () {
         this.cr = cr;
         this.inputs = inputs;
         this.spritesheets = [];
+        this.passedTicks = 0;
     }
     /********************************************************************
      * Init color palette with chain hex color string
@@ -59,6 +60,8 @@ var API = /** @class */ (function () {
     API.prototype.cls = function (c) {
         // evaluate runtime errors
         this.colorRangeError(c);
+        // update ticks
+        this.passedTicks += 1;
         this.cr.renderer.clearRect(0, 0, this.cr.canvas.width, this.cr.canvas.height);
         this.cr.renderer.fillStyle = "#" + this.palette[c];
         this.cr.renderer.fillRect(0, 0, this.cr.canvas.width, this.cr.canvas.height);
@@ -276,6 +279,12 @@ var API = /** @class */ (function () {
         }
         this.print(s, 0, 0, 12);
     };
+    /********************************************************************
+     * Load a spritesheet.
+     * @param n    [name of the spritesheet]
+     * @param p    [path of the spritesheet]
+     * @param size [size of the sprites in the spritesheet]
+     ********************************************************************/
     API.prototype.load = function (n, p, size) {
         this.spriteSize = size;
         var image = new Image();
@@ -284,17 +293,95 @@ var API = /** @class */ (function () {
         image.src = fullPath;
         this.spritesheets.push(image);
     };
+    /********************************************************************
+     * Create a sprite from spritesheet.
+     * @param s  [the choosen sprite]
+     * @param x0 [x position of the sprite]
+     * @param y0 [y position of the sprite]
+     ********************************************************************/
     API.prototype.spr = function (s, x0, y0) {
         this.cr.renderer.mozImageSmoothingEnabled = false;
         this.cr.renderer.webkitImageSmoothingEnabled = false;
         this.cr.renderer.imageSmoothingEnabled = false;
-        // get data
         var amountFieldsHorizontal = this.spritesheets[0].width / this.spriteSize;
-        var amountFieldsVertical = this.spritesheets[0].height / this.spriteSize;
-        var totalFields = amountFieldsHorizontal * amountFieldsVertical;
         var yPos = Math.floor(s / amountFieldsHorizontal);
         var xPos = s - amountFieldsHorizontal * yPos;
         this.cr.renderer.drawImage(this.spritesheets[0], xPos * this.spriteSize, yPos * this.spriteSize, 8, 8, x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, this.spriteSize * this.cr.options.scaleFactor, this.spriteSize * this.cr.options.scaleFactor);
+    };
+    /********************************************************************
+     * Get status of button code passed
+     * Returns true only the moment when the key is pressed down
+     * @param  code [Button code passed]
+     * @return      [true or false]
+     ********************************************************************/
+    API.prototype.btnp = function (code) {
+        switch (code) {
+            case 0: {
+                if (this.inputs.justDown(38)) {
+                    return true;
+                }
+                break;
+            }
+            case 1: {
+                if (this.inputs.justDown(40)) {
+                    return true;
+                }
+                break;
+            }
+            case 2: {
+                if (this.inputs.justDown(37)) {
+                    return true;
+                }
+                break;
+            }
+            case 3: {
+                if (this.inputs.justDown(39)) {
+                    return true;
+                }
+                break;
+            }
+            case 4: {
+                if (this.inputs.justDown(65)) {
+                    return true;
+                }
+                break;
+            }
+            case 5: {
+                if (this.inputs.justDown(66)) {
+                    return true;
+                }
+                break;
+            }
+            case 6: {
+                if (this.inputs.justDown(88)) {
+                    return true;
+                }
+                break;
+            }
+            case 7: {
+                if (this.inputs.justDown(89)) {
+                    return true;
+                }
+                break;
+            }
+        }
+    };
+    API.prototype.sfx = function () {
+        var ctx = new AudioContext();
+        var lfo = ctx.createOscillator();
+        lfo.frequency.value = 1.0;
+        // Create the high frequency oscillator to be modulated
+        var hfo = ctx.createOscillator();
+        hfo.frequency.value = 440.0;
+        // Create a gain node whose gain determines the amplitude of the modulation signal
+        var modulationGain = ctx.createGain();
+        modulationGain.gain.value = 50;
+        // Configure the graph and start the oscillators
+        lfo.connect(modulationGain);
+        modulationGain.connect(hfo.detune);
+        hfo.connect(ctx.destination);
+        hfo.start(0);
+        lfo.start(0);
     };
     /********************************************************************
      * Return the mouse coordinates.
@@ -318,14 +405,66 @@ var API = /** @class */ (function () {
     API.prototype.ggh = function () {
         return this.cr.canvas.height / this.cr.options.scaleFactor;
     };
+    API.prototype.ticks = function () {
+        return this.passedTicks;
+    };
     /********************************************************************
      * [colorRangeError description]
      * @param color [description]
      ********************************************************************/
     API.prototype.colorRangeError = function (color) {
         if (color < 0 || color > 15) {
-            throw new RangeError("You have selected an incorrect color index. The color must be between 0-15");
+            throw new RangeError("You have selected an incorrect color index (" +
+                color +
+                "). The color must be between 0-15");
         }
+    };
+    /********************************************************************
+     * SPECIAL API FUNCTIONS
+     ********************************************************************/
+    API.prototype.crc = function (c, r) {
+        var circleDistanceX = Math.abs(c.x - r.x);
+        var circleDistanceY = Math.abs(c.y - r.y);
+        if (circleDistanceX > r.w / 2 + c.r) {
+            return false;
+        }
+        if (circleDistanceY > r.h / 2 + c.r) {
+            return false;
+        }
+        if (circleDistanceX <= r.w / 2) {
+            return true;
+        }
+        if (circleDistanceY <= r.h / 2) {
+            return true;
+        }
+        var cornerDistance_sq = (circleDistanceX - r.w / 2) * (circleDistanceX - r.w / 2) +
+            (circleDistanceY - r.h / 2) * (circleDistanceY - r.h / 2);
+        return cornerDistance_sq <= c.r * c.r;
+    };
+    API.prototype.rrc = function (r1, r2) {
+        if (r1.x < r2.x + r2.w &&
+            r1.x + r1.w > r2.x &&
+            r1.y < r2.y + r2.h &&
+            r1.y + r1.h > r2.y) {
+            return true;
+        }
+        return false;
+    };
+    API.prototype.anim = function (object, startFrame, numberOfFrames, speed) {
+        if (!object.a_ct) {
+            object.a_ct = 0;
+        }
+        if (!object.a_st) {
+            object.a_st = 0;
+        }
+        object.a_ct += 1;
+        if (object.a_ct % (30 / speed) == 0) {
+            object.a_st += 1;
+            if (object.a_st == numberOfFrames)
+                object.a_st = 0;
+        }
+        object.a_fr = startFrame + object.a_st;
+        this.spr(object.a_fr, object.x, object.y);
     };
     return API;
 }());

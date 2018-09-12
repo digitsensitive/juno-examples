@@ -16,8 +16,11 @@ export class API {
   private palette: string[];
   private spritesheets: any[] = [];
   private spriteSize: number;
+  private passedTicks: number;
 
-  constructor(private cr: ICanvasRenderer, private inputs: Input) {}
+  constructor(private cr: ICanvasRenderer, private inputs: Input) {
+    this.passedTicks = 0;
+  }
 
   /********************************************************************
    * Init color palette with chain hex color string
@@ -64,6 +67,9 @@ export class API {
   public cls(c: number): void {
     // evaluate runtime errors
     this.colorRangeError(c);
+
+    // update ticks
+    this.passedTicks += 1;
 
     this.cr.renderer.clearRect(
       0,
@@ -341,6 +347,12 @@ export class API {
     this.print(s, 0, 0, 12);
   }
 
+  /********************************************************************
+   * Load a spritesheet.
+   * @param n    [name of the spritesheet]
+   * @param p    [path of the spritesheet]
+   * @param size [size of the sprites in the spritesheet]
+   ********************************************************************/
   public load(n: string, p: string, size: number): void {
     this.spriteSize = size;
     let image = new Image();
@@ -351,16 +363,18 @@ export class API {
     this.spritesheets.push(image);
   }
 
+  /********************************************************************
+   * Create a sprite from spritesheet.
+   * @param s  [the choosen sprite]
+   * @param x0 [x position of the sprite]
+   * @param y0 [y position of the sprite]
+   ********************************************************************/
   public spr(s: number, x0: number, y0: number): void {
     this.cr.renderer.mozImageSmoothingEnabled = false;
     this.cr.renderer.webkitImageSmoothingEnabled = false;
     this.cr.renderer.imageSmoothingEnabled = false;
 
-    // get data
     let amountFieldsHorizontal = this.spritesheets[0].width / this.spriteSize;
-    let amountFieldsVertical = this.spritesheets[0].height / this.spriteSize;
-    let totalFields = amountFieldsHorizontal * amountFieldsVertical;
-
     let yPos = Math.floor(s / amountFieldsHorizontal);
     let xPos = s - amountFieldsHorizontal * yPos;
 
@@ -375,6 +389,84 @@ export class API {
       this.spriteSize * this.cr.options.scaleFactor,
       this.spriteSize * this.cr.options.scaleFactor
     );
+  }
+
+  /********************************************************************
+   * Get status of button code passed
+   * Returns true only the moment when the key is pressed down
+   * @param  code [Button code passed]
+   * @return      [true or false]
+   ********************************************************************/
+  public btnp(code: number): boolean {
+    switch (code) {
+      case 0: {
+        if (this.inputs.justDown(38)) {
+          return true;
+        }
+        break;
+      }
+      case 1: {
+        if (this.inputs.justDown(40)) {
+          return true;
+        }
+        break;
+      }
+      case 2: {
+        if (this.inputs.justDown(37)) {
+          return true;
+        }
+        break;
+      }
+      case 3: {
+        if (this.inputs.justDown(39)) {
+          return true;
+        }
+        break;
+      }
+      case 4: {
+        if (this.inputs.justDown(65)) {
+          return true;
+        }
+        break;
+      }
+      case 5: {
+        if (this.inputs.justDown(66)) {
+          return true;
+        }
+        break;
+      }
+      case 6: {
+        if (this.inputs.justDown(88)) {
+          return true;
+        }
+        break;
+      }
+      case 7: {
+        if (this.inputs.justDown(89)) {
+          return true;
+        }
+        break;
+      }
+    }
+  }
+
+  public sfx(): void {
+    let ctx = new AudioContext();
+    let lfo = ctx.createOscillator();
+    lfo.frequency.value = 1.0;
+
+    // Create the high frequency oscillator to be modulated
+    let hfo = ctx.createOscillator();
+    hfo.frequency.value = 440.0;
+    // Create a gain node whose gain determines the amplitude of the modulation signal
+    let modulationGain = ctx.createGain();
+    modulationGain.gain.value = 50;
+    // Configure the graph and start the oscillators
+    lfo.connect(modulationGain);
+    modulationGain.connect(hfo.detune);
+    hfo.connect(ctx.destination);
+    hfo.start(0);
+    lfo.start(0);
   }
 
   /********************************************************************
@@ -402,6 +494,10 @@ export class API {
     return this.cr.canvas.height / this.cr.options.scaleFactor;
   }
 
+  public ticks(): number {
+    return this.passedTicks;
+  }
+
   /********************************************************************
    * [colorRangeError description]
    * @param color [description]
@@ -409,8 +505,75 @@ export class API {
   private colorRangeError(color: number): void {
     if (color < 0 || color > 15) {
       throw new RangeError(
-        "You have selected an incorrect color index. The color must be between 0-15"
+        "You have selected an incorrect color index (" +
+          color +
+          "). The color must be between 0-15"
       );
     }
+  }
+
+  /********************************************************************
+   * SPECIAL API FUNCTIONS
+   ********************************************************************/
+  public crc(c, r): boolean {
+    let circleDistanceX = Math.abs(c.x - r.x);
+    let circleDistanceY = Math.abs(c.y - r.y);
+
+    if (circleDistanceX > r.w / 2 + c.r) {
+      return false;
+    }
+    if (circleDistanceY > r.h / 2 + c.r) {
+      return false;
+    }
+
+    if (circleDistanceX <= r.w / 2) {
+      return true;
+    }
+    if (circleDistanceY <= r.h / 2) {
+      return true;
+    }
+
+    let cornerDistance_sq =
+      (circleDistanceX - r.w / 2) * (circleDistanceX - r.w / 2) +
+      (circleDistanceY - r.h / 2) * (circleDistanceY - r.h / 2);
+
+    return cornerDistance_sq <= c.r * c.r;
+  }
+
+  public rrc(r1, r2): boolean {
+    if (
+      r1.x < r2.x + r2.w &&
+      r1.x + r1.w > r2.x &&
+      r1.y < r2.y + r2.h &&
+      r1.y + r1.h > r2.y
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  public anim(
+    object: any,
+    startFrame: number,
+    numberOfFrames: number,
+    speed: number
+  ): void {
+    if (!object.a_ct) {
+      object.a_ct = 0;
+    }
+    if (!object.a_st) {
+      object.a_st = 0;
+    }
+
+    object.a_ct += 1;
+
+    if (object.a_ct % (30 / speed) == 0) {
+      object.a_st += 1;
+      if (object.a_st == numberOfFrames) object.a_st = 0;
+    }
+
+    object.a_fr = startFrame + object.a_st;
+
+    this.spr(object.a_fr, object.x, object.y);
   }
 }

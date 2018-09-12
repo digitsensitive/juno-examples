@@ -16,6 +16,7 @@ export declare class API {
     private palette;
     private spritesheets;
     private spriteSize;
+    private passedTicks;
     constructor(cr: ICanvasRenderer, inputs: Input);
     /********************************************************************
      * Init color palette with chain hex color string
@@ -134,8 +135,28 @@ export declare class API {
      * @param s [the string or number to trace]
      ********************************************************************/
     trace(s: string | number): void;
+    /********************************************************************
+     * Load a spritesheet.
+     * @param n    [name of the spritesheet]
+     * @param p    [path of the spritesheet]
+     * @param size [size of the sprites in the spritesheet]
+     ********************************************************************/
     load(n: string, p: string, size: number): void;
+    /********************************************************************
+     * Create a sprite from spritesheet.
+     * @param s  [the choosen sprite]
+     * @param x0 [x position of the sprite]
+     * @param y0 [y position of the sprite]
+     ********************************************************************/
     spr(s: number, x0: number, y0: number): void;
+    /********************************************************************
+     * Get status of button code passed
+     * Returns true only the moment when the key is pressed down
+     * @param  code [Button code passed]
+     * @return      [true or false]
+     ********************************************************************/
+    btnp(code: number): boolean;
+    sfx(): void;
     /********************************************************************
      * Return the mouse coordinates.
      * @param  e [description]
@@ -152,9 +173,16 @@ export declare class API {
      * @return [game height]
      ********************************************************************/
     ggh(): number;
+    ticks(): number;
     /********************************************************************
      * [colorRangeError description]
      * @param color [description]
      ********************************************************************/
     private colorRangeError;
+    /********************************************************************
+     * SPECIAL API FUNCTIONS
+     ********************************************************************/
+    crc(c: any, r: any): boolean;
+    rrc(r1: any, r2: any): boolean;
+    anim(object: any, startFrame: number, numberOfFrames: number, speed: number): void;
 }

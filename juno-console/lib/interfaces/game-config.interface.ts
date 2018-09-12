@@ -11,4 +11,5 @@ export interface IGameConfig {
   allowedInputs?: { keyboard?: boolean; mouse?: boolean };
   width?: number;
   height?: number;
+  fullscreen?: boolean;
 }
