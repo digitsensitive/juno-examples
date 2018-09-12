@@ -15,6 +15,7 @@ export declare class API {
     private inputs;
     private palette;
     private spritesheets;
+    private spriteSize;
     constructor(cr: ICanvasRenderer, inputs: Input);
     /********************************************************************
      * Init color palette with chain hex color string
@@ -133,7 +134,7 @@ export declare class API {
      * @param s [the string or number to trace]
      ********************************************************************/
     trace(s: string | number): void;
-    load(n: string, p: string): void;
+    load(n: string, p: string, size: number): void;
     spr(s: number, x0: number, y0: number): void;
     /********************************************************************
      * Return the mouse coordinates.

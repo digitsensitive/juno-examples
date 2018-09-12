@@ -15,6 +15,7 @@ import { IMouseCoordinates } from "../interfaces/mouse-coordinates.interface";
 export class API {
   private palette: string[];
   private spritesheets: any[] = [];
+  private spriteSize: number;
 
   constructor(private cr: ICanvasRenderer, private inputs: Input) {}
 
@@ -340,9 +341,9 @@ export class API {
     this.print(s, 0, 0, 12);
   }
 
-  public load(n: string, p: string): void {
+  public load(n: string, p: string, size: number): void {
+    this.spriteSize = size;
     let image = new Image();
-
     let nameWithPNG = n + ".png";
     let fullPath = p + nameWithPNG;
 
@@ -351,22 +352,28 @@ export class API {
   }
 
   public spr(s: number, x0: number, y0: number): void {
-    //this.canvas.style.imageRendering = "pixelated";
+    this.cr.renderer.mozImageSmoothingEnabled = false;
+    this.cr.renderer.webkitImageSmoothingEnabled = false;
+    this.cr.renderer.imageSmoothingEnabled = false;
 
-    /*-moz-crisp-edges;
-            image-rendering: -webkit-crisp-edges;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;*/
+    // get data
+    let amountFieldsHorizontal = this.spritesheets[0].width / this.spriteSize;
+    let amountFieldsVertical = this.spritesheets[0].height / this.spriteSize;
+    let totalFields = amountFieldsHorizontal * amountFieldsVertical;
+
+    let yPos = Math.floor(s / amountFieldsHorizontal);
+    let xPos = s - amountFieldsHorizontal * yPos;
+
     this.cr.renderer.drawImage(
       this.spritesheets[0],
-      0,
-      0,
+      xPos * this.spriteSize,
+      yPos * this.spriteSize,
       8,
       8,
       x0 * this.cr.options.scaleFactor,
       y0 * this.cr.options.scaleFactor,
-      8 * this.cr.options.scaleFactor,
-      8 * this.cr.options.scaleFactor
+      this.spriteSize * this.cr.options.scaleFactor,
+      this.spriteSize * this.cr.options.scaleFactor
     );
   }
 

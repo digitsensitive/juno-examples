@@ -276,7 +276,8 @@ var API = /** @class */ (function () {
         }
         this.print(s, 0, 0, 12);
     };
-    API.prototype.load = function (n, p) {
+    API.prototype.load = function (n, p, size) {
+        this.spriteSize = size;
         var image = new Image();
         var nameWithPNG = n + ".png";
         var fullPath = p + nameWithPNG;
@@ -284,12 +285,16 @@ var API = /** @class */ (function () {
         this.spritesheets.push(image);
     };
     API.prototype.spr = function (s, x0, y0) {
-        //this.canvas.style.imageRendering = "pixelated";
-        /*-moz-crisp-edges;
-                image-rendering: -webkit-crisp-edges;
-                image-rendering: pixelated;
-                image-rendering: crisp-edges;*/
-        this.cr.renderer.drawImage(this.spritesheets[0], 0, 0, 8, 8, x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, 8 * this.cr.options.scaleFactor, 8 * this.cr.options.scaleFactor);
+        this.cr.renderer.mozImageSmoothingEnabled = false;
+        this.cr.renderer.webkitImageSmoothingEnabled = false;
+        this.cr.renderer.imageSmoothingEnabled = false;
+        // get data
+        var amountFieldsHorizontal = this.spritesheets[0].width / this.spriteSize;
+        var amountFieldsVertical = this.spritesheets[0].height / this.spriteSize;
+        var totalFields = amountFieldsHorizontal * amountFieldsVertical;
+        var yPos = Math.floor(s / amountFieldsHorizontal);
+        var xPos = s - amountFieldsHorizontal * yPos;
+        this.cr.renderer.drawImage(this.spritesheets[0], xPos * this.spriteSize, yPos * this.spriteSize, 8, 8, x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, this.spriteSize * this.cr.options.scaleFactor, this.spriteSize * this.cr.options.scaleFactor);
     };
     /********************************************************************
      * Return the mouse coordinates.

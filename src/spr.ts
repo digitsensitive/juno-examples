@@ -12,6 +12,7 @@ import * as Juno from "../juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
+  allowedInputs: {},
   scale: 8
 };
 
@@ -25,7 +26,7 @@ export class Game extends Juno.Game {
   }
 
   private init() {
-    this.api.load("sprites", "./src/assets/");
+    this.api.load("sprites", "./src/assets/", 8);
   }
 
   private update(dt: number): void {}
@@ -35,8 +36,13 @@ export class Game extends Juno.Game {
 
     this.api.print("HELLO JUNO!", 16.1, 30.1, 4);
     this.api.print("HELLO JUNO!", 16, 30, 12);
-
-    this.api.spr(1, 16, 35);
+    let i = 0;
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        this.api.spr(i, x * 8, y * 8);
+        i++;
+      }
+    }
   }
 }
 
