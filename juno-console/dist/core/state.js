@@ -9,9 +9,7 @@
  * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var State = /** @class */ (function () {
-    function State() {
-    }
-    return State;
-}());
+class State {
+    constructor() { }
+}
 exports.State = State;

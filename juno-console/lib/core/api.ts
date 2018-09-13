@@ -11,6 +11,7 @@
 import { ICanvasRenderer } from "../interfaces/canvas-renderer.interface";
 import { Input } from "./input";
 import { IMouseCoordinates } from "../interfaces/mouse-coordinates.interface";
+import { KEY } from "../enums/key.enum";
 
 export class API {
   private palette: string[];
@@ -392,59 +393,125 @@ export class API {
   }
 
   /********************************************************************
-   * Get status of button code passed
-   * Returns true only the moment when the key is pressed down
-   * @param  code [Button code passed]
+   * Get status of key code passed
+   * Return true if key is pressed
+   * @param  code [key code passed]
    * @return      [true or false]
    ********************************************************************/
-  public btnp(code: number): boolean {
+  public key(code: number): boolean {
     switch (code) {
       case 0: {
-        if (this.inputs.justDown(38)) {
+        if (this.inputs.isDown(KEY.UP)) {
           return true;
         }
         break;
       }
       case 1: {
-        if (this.inputs.justDown(40)) {
+        if (this.inputs.isDown(KEY.DOWN)) {
           return true;
         }
         break;
       }
       case 2: {
-        if (this.inputs.justDown(37)) {
+        if (this.inputs.isDown(KEY.LEFT)) {
           return true;
         }
         break;
       }
       case 3: {
-        if (this.inputs.justDown(39)) {
+        if (this.inputs.isDown(KEY.RIGHT)) {
           return true;
         }
         break;
       }
       case 4: {
-        if (this.inputs.justDown(65)) {
+        if (this.inputs.isDown(KEY.A)) {
           return true;
         }
         break;
       }
       case 5: {
-        if (this.inputs.justDown(66)) {
+        if (this.inputs.isDown(KEY.B)) {
           return true;
         }
         break;
       }
       case 6: {
-        if (this.inputs.justDown(88)) {
+        if (this.inputs.isDown(KEY.X)) {
           return true;
         }
         break;
       }
       case 7: {
-        if (this.inputs.justDown(89)) {
+        if (this.inputs.isDown(KEY.Z)) {
           return true;
         }
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  /********************************************************************
+   * Get status of key code passed
+   * Return only true if pressed now and not in previous frame
+   * @param  code [Key code passed]
+   * @return      [true or false]
+   ********************************************************************/
+  public keyp(code: number): boolean {
+    switch (code) {
+      case 0: {
+        if (this.inputs.justDown(KEY.UP)) {
+          return true;
+        }
+        break;
+      }
+      case 1: {
+        if (this.inputs.justDown(KEY.DOWN)) {
+          return true;
+        }
+        break;
+      }
+      case 2: {
+        if (this.inputs.justDown(KEY.LEFT)) {
+          return true;
+        }
+        break;
+      }
+      case 3: {
+        if (this.inputs.justDown(KEY.RIGHT)) {
+          return true;
+        }
+        break;
+      }
+      case 4: {
+        if (this.inputs.justDown(KEY.A)) {
+          return true;
+        }
+        break;
+      }
+      case 5: {
+        if (this.inputs.justDown(KEY.B)) {
+          return true;
+        }
+        break;
+      }
+      case 6: {
+        if (this.inputs.justDown(KEY.X)) {
+          return true;
+        }
+        break;
+      }
+      case 7: {
+        if (this.inputs.justDown(KEY.Z)) {
+          return true;
+        }
+        break;
+      }
+
+      default: {
         break;
       }
     }

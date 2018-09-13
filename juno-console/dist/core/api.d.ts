@@ -150,12 +150,19 @@ export declare class API {
      ********************************************************************/
     spr(s: number, x0: number, y0: number): void;
     /********************************************************************
-     * Get status of button code passed
-     * Returns true only the moment when the key is pressed down
-     * @param  code [Button code passed]
+     * Get status of key code passed
+     * Return true if key is pressed
+     * @param  code [key code passed]
      * @return      [true or false]
      ********************************************************************/
-    btnp(code: number): boolean;
+    key(code: number): boolean;
+    /********************************************************************
+     * Get status of key code passed
+     * Return only true if pressed now and not in previous frame
+     * @param  code [Key code passed]
+     * @return      [true or false]
+     ********************************************************************/
+    keyp(code: number): boolean;
     sfx(): void;
     /********************************************************************
      * Return the mouse coordinates.

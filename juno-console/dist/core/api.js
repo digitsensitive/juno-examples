@@ -9,8 +9,9 @@
  * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var API = /** @class */ (function () {
-    function API(cr, inputs) {
+const key_enum_1 = require("../enums/key.enum");
+class API {
+    constructor(cr, inputs) {
         this.cr = cr;
         this.inputs = inputs;
         this.spritesheets = [];
@@ -45,19 +46,19 @@ var API = /** @class */ (function () {
      *
      * @param palette [index of the color in the palette]
      ********************************************************************/
-    API.prototype.ipal = function (palette) {
+    ipal(palette) {
         this.palette = [];
-        var fromPositionInString = 0;
+        let fromPositionInString = 0;
         while (fromPositionInString < 96) {
             this.palette.push(palette.substr(fromPositionInString, 6));
             fromPositionInString += 6;
         }
-    };
+    }
     /********************************************************************
      * Clear the screen with a specified color.
      * @param color [index of the color in the palette]
      /********************************************************************/
-    API.prototype.cls = function (c) {
+    cls(c) {
         // evaluate runtime errors
         this.colorRangeError(c);
         // update ticks
@@ -65,19 +66,19 @@ var API = /** @class */ (function () {
         this.cr.renderer.clearRect(0, 0, this.cr.canvas.width, this.cr.canvas.height);
         this.cr.renderer.fillStyle = "#" + this.palette[c];
         this.cr.renderer.fillRect(0, 0, this.cr.canvas.width, this.cr.canvas.height);
-    };
+    }
     /********************************************************************
      * Draw one pixel at a specific 2D location (x and y).
      * @param x0    [x coordinate of the pixel]
      * @param y0    [y coordinate of the pixel]
      * @param color [index of the color in the palette]
      ********************************************************************/
-    API.prototype.pix = function (x0, y0, c) {
+    pix(x0, y0, c) {
         // evaluate runtime errors
         this.colorRangeError(c);
         this.cr.renderer.fillStyle = "#" + this.palette[c];
         this.cr.renderer.fillRect(x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, this.cr.options.scaleFactor, this.cr.options.scaleFactor);
-    };
+    }
     /********************************************************************
      * Create a circle outline with the Bresenham's circle algorithm.
      * @param  x        [x coordinate of the center of the circle]
@@ -85,12 +86,12 @@ var API = /** @class */ (function () {
      * @param  r        [radius of the circle]
      * @param  c        [index of the color in the palette]
      ********************************************************************/
-    API.prototype.circb = function (x0, y0, r, c) {
+    circb(x0, y0, r, c) {
         // evaluate runtime errors
         this.colorRangeError(c);
-        var x = 0;
-        var y = r;
-        var p = 3 - 2 * r;
+        let x = 0;
+        let y = r;
+        let p = 3 - 2 * r;
         this.circbPixGroup(x0, y0, x, y, c);
         while (x < y) {
             if (p < 0) {
@@ -104,7 +105,7 @@ var API = /** @class */ (function () {
             }
             this.circbPixGroup(x0, y0, x, y, c);
         }
-    };
+    }
     /********************************************************************
      * [pixel description]
      * @param xc [description]
@@ -113,7 +114,7 @@ var API = /** @class */ (function () {
      * @param y  [description]
      * @param c  [description]
      ********************************************************************/
-    API.prototype.circbPixGroup = function (x0, y0, x, y, c) {
+    circbPixGroup(x0, y0, x, y, c) {
         this.pix(x0 + x, y0 + y, c);
         this.pix(x0 + x, y0 - y, c);
         this.pix(x0 - x, y0 + y, c);
@@ -122,7 +123,7 @@ var API = /** @class */ (function () {
         this.pix(x0 + y, y0 - x, c);
         this.pix(x0 - y, y0 + x, c);
         this.pix(x0 - y, y0 - x, c);
-    };
+    }
     /********************************************************************
      * Create a filled circle with the Bresenham's circle algorithm.
      * @param  x         [x coordinate of the center of the circle]
@@ -130,12 +131,12 @@ var API = /** @class */ (function () {
      * @param  r         [radius of the circle]
      * @param  c         [index of the color in the palette]
      ********************************************************************/
-    API.prototype.circ = function (x0, y0, r, c) {
+    circ(x0, y0, r, c) {
         // evaluate runtime errors
         this.colorRangeError(c);
-        var x = 0;
-        var y = r;
-        var p = 3 - 2 * r;
+        let x = 0;
+        let y = r;
+        let p = 3 - 2 * r;
         this.circPixGroup(x0, y0, x, y, c);
         while (x < y) {
             if (p < 0) {
@@ -149,7 +150,7 @@ var API = /** @class */ (function () {
             }
             this.circPixGroup(x0, y0, x, y, c);
         }
-    };
+    }
     /********************************************************************
      * [pixel description]
      * @param xc [description]
@@ -158,12 +159,12 @@ var API = /** @class */ (function () {
      * @param y  [description]
      * @param c  [description]
      ********************************************************************/
-    API.prototype.circPixGroup = function (x0, y0, x, y, c) {
+    circPixGroup(x0, y0, x, y, c) {
         this.line(x0 - x, y0 + y, x0 + x, y0 + y, c);
         this.line(x0 + x, y0 - y, x0 - x, y0 - y, c);
         this.line(x0 + x, y0 + y, x0 - x, y0 + y, c);
         this.line(x0 + x, y0 - y, x0 - x, y0 - y, c);
-    };
+    }
     /********************************************************************
      * Create a line with the Bresenham's line algorithm.
      * @param x0 [the starting x position]
@@ -172,25 +173,25 @@ var API = /** @class */ (function () {
      * @param y1 [the ending y position]
      * @param c  [index of the color in the palette]
      ********************************************************************/
-    API.prototype.line = function (x0, y0, x1, y1, c) {
+    line(x0, y0, x1, y1, c) {
         // evaluate runtime errors
         this.colorRangeError(c);
         x0 = Math.ceil(x0);
         y0 = Math.ceil(y0);
         x1 = Math.ceil(x1);
         y1 = Math.ceil(y1);
-        var dx = Math.abs(x1 - x0);
-        var dy = Math.abs(y1 - y0);
-        var sx = x0 < x1 ? 1 : -1;
-        var sy = y0 < y1 ? 1 : -1;
-        var err = dx - dy;
-        for (var x = 0; x <= dx; x++) {
-            for (var y = 0; y <= dy; y++) {
+        let dx = Math.abs(x1 - x0);
+        let dy = Math.abs(y1 - y0);
+        let sx = x0 < x1 ? 1 : -1;
+        let sy = y0 < y1 ? 1 : -1;
+        let err = dx - dy;
+        for (let x = 0; x <= dx; x++) {
+            for (let y = 0; y <= dy; y++) {
                 this.pix(x0, y0, c);
                 if (x0 == x1 && y0 == y1) {
                     break;
                 }
-                var e2 = 2 * err;
+                let e2 = 2 * err;
                 if (e2 >= -dy) {
                     err -= dy;
                     x0 += sx;
@@ -201,7 +202,7 @@ var API = /** @class */ (function () {
                 }
             }
         }
-    };
+    }
     /********************************************************************
      * Draw a filled rectangle.
      * @param x0    [the x position of the rectangle]
@@ -210,7 +211,7 @@ var API = /** @class */ (function () {
      * @param h     [the height of the rectangle]
      * @param c [index of the color in the palette]
      ********************************************************************/
-    API.prototype.rect = function (x0, y0, w, h, c) {
+    rect(x0, y0, w, h, c) {
         // evaluate runtime errors
         if (w <= 0) {
             throw new RangeError("The width of a rectangle must be > 0. ");
@@ -221,7 +222,7 @@ var API = /** @class */ (function () {
         this.colorRangeError(c);
         this.cr.renderer.fillStyle = "#" + this.palette[c];
         this.cr.renderer.fillRect(x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, w * this.cr.options.scaleFactor, h * this.cr.options.scaleFactor);
-    };
+    }
     /********************************************************************
      * Draw a rectangle outline.
      * @param x0    [the x position of the rectangle]
@@ -230,7 +231,7 @@ var API = /** @class */ (function () {
      * @param h     [the height of the rectangle]
      * @param c     [index of the color in the palette]
      ********************************************************************/
-    API.prototype.rectb = function (x0, y0, w, h, c) {
+    rectb(x0, y0, w, h, c) {
         // evaluate runtime errors
         if (w <= 0) {
             throw new RangeError("The width of a rectangle must be > 0. ");
@@ -239,14 +240,14 @@ var API = /** @class */ (function () {
             throw new RangeError("The height of a rectangle must be > 0. ");
         }
         this.colorRangeError(c);
-        for (var x = 0; x < w; x++) {
-            for (var y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+            for (let y = 0; y < h; y++) {
                 if (x === 0 || y === 0 || x === w - 1 || y === h - 1) {
                     this.pix(x0 + x, y0 + y, c);
                 }
             }
         }
-    };
+    }
     /********************************************************************
      * Print text.
      * @param s  [string to print]
@@ -255,7 +256,7 @@ var API = /** @class */ (function () {
      * @param c  [index of the color in the palette]
      * @param sc [scale factor of the text]
      ********************************************************************/
-    API.prototype.print = function (s, x0, y0, c, sc) {
+    print(s, x0, y0, c, sc) {
         // evaluate runtime errors
         if (sc !== undefined && sc < 1) {
             throw new RangeError("The font size cannot be smaller than 1. ");
@@ -264,117 +265,181 @@ var API = /** @class */ (function () {
             throw new RangeError("The font length must be longer than 0. ");
         }
         this.colorRangeError(c);
-        var size = sc * 3 * this.cr.options.scaleFactor || 3 * this.cr.options.scaleFactor;
+        let size = sc * 3 * this.cr.options.scaleFactor || 3 * this.cr.options.scaleFactor;
         this.cr.renderer.font = size + "px Juno";
         this.cr.renderer.fillStyle = "#" + this.palette[c];
         this.cr.renderer.fillText(s, x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor + size);
-    };
+    }
     /********************************************************************
      * Trace a string or a number => Alternative to console.log().
      * @param s [the string or number to trace]
      ********************************************************************/
-    API.prototype.trace = function (s) {
+    trace(s) {
         if (typeof s === "number") {
             s = s.toString();
         }
         this.print(s, 0, 0, 12);
-    };
+    }
     /********************************************************************
      * Load a spritesheet.
      * @param n    [name of the spritesheet]
      * @param p    [path of the spritesheet]
      * @param size [size of the sprites in the spritesheet]
      ********************************************************************/
-    API.prototype.load = function (n, p, size) {
+    load(n, p, size) {
         this.spriteSize = size;
-        var image = new Image();
-        var nameWithPNG = n + ".png";
-        var fullPath = p + nameWithPNG;
+        let image = new Image();
+        let nameWithPNG = n + ".png";
+        let fullPath = p + nameWithPNG;
         image.src = fullPath;
         this.spritesheets.push(image);
-    };
+    }
     /********************************************************************
      * Create a sprite from spritesheet.
      * @param s  [the choosen sprite]
      * @param x0 [x position of the sprite]
      * @param y0 [y position of the sprite]
      ********************************************************************/
-    API.prototype.spr = function (s, x0, y0) {
+    spr(s, x0, y0) {
         this.cr.renderer.mozImageSmoothingEnabled = false;
         this.cr.renderer.webkitImageSmoothingEnabled = false;
         this.cr.renderer.imageSmoothingEnabled = false;
-        var amountFieldsHorizontal = this.spritesheets[0].width / this.spriteSize;
-        var yPos = Math.floor(s / amountFieldsHorizontal);
-        var xPos = s - amountFieldsHorizontal * yPos;
+        let amountFieldsHorizontal = this.spritesheets[0].width / this.spriteSize;
+        let yPos = Math.floor(s / amountFieldsHorizontal);
+        let xPos = s - amountFieldsHorizontal * yPos;
         this.cr.renderer.drawImage(this.spritesheets[0], xPos * this.spriteSize, yPos * this.spriteSize, 8, 8, x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, this.spriteSize * this.cr.options.scaleFactor, this.spriteSize * this.cr.options.scaleFactor);
-    };
+    }
     /********************************************************************
-     * Get status of button code passed
-     * Returns true only the moment when the key is pressed down
-     * @param  code [Button code passed]
+     * Get status of key code passed
+     * Return true if key is pressed
+     * @param  code [key code passed]
      * @return      [true or false]
      ********************************************************************/
-    API.prototype.btnp = function (code) {
+    key(code) {
         switch (code) {
             case 0: {
-                if (this.inputs.justDown(38)) {
+                if (this.inputs.isDown(key_enum_1.KEY.UP)) {
                     return true;
                 }
                 break;
             }
             case 1: {
-                if (this.inputs.justDown(40)) {
+                if (this.inputs.isDown(key_enum_1.KEY.DOWN)) {
                     return true;
                 }
                 break;
             }
             case 2: {
-                if (this.inputs.justDown(37)) {
+                if (this.inputs.isDown(key_enum_1.KEY.LEFT)) {
                     return true;
                 }
                 break;
             }
             case 3: {
-                if (this.inputs.justDown(39)) {
+                if (this.inputs.isDown(key_enum_1.KEY.RIGHT)) {
                     return true;
                 }
                 break;
             }
             case 4: {
-                if (this.inputs.justDown(65)) {
+                if (this.inputs.isDown(key_enum_1.KEY.A)) {
                     return true;
                 }
                 break;
             }
             case 5: {
-                if (this.inputs.justDown(66)) {
+                if (this.inputs.isDown(key_enum_1.KEY.B)) {
                     return true;
                 }
                 break;
             }
             case 6: {
-                if (this.inputs.justDown(88)) {
+                if (this.inputs.isDown(key_enum_1.KEY.X)) {
                     return true;
                 }
                 break;
             }
             case 7: {
-                if (this.inputs.justDown(89)) {
+                if (this.inputs.isDown(key_enum_1.KEY.Z)) {
                     return true;
                 }
                 break;
             }
+            default: {
+                break;
+            }
         }
-    };
-    API.prototype.sfx = function () {
-        var ctx = new AudioContext();
-        var lfo = ctx.createOscillator();
+    }
+    /********************************************************************
+     * Get status of key code passed
+     * Return only true if pressed now and not in previous frame
+     * @param  code [Key code passed]
+     * @return      [true or false]
+     ********************************************************************/
+    keyp(code) {
+        switch (code) {
+            case 0: {
+                if (this.inputs.justDown(key_enum_1.KEY.UP)) {
+                    return true;
+                }
+                break;
+            }
+            case 1: {
+                if (this.inputs.justDown(key_enum_1.KEY.DOWN)) {
+                    return true;
+                }
+                break;
+            }
+            case 2: {
+                if (this.inputs.justDown(key_enum_1.KEY.LEFT)) {
+                    return true;
+                }
+                break;
+            }
+            case 3: {
+                if (this.inputs.justDown(key_enum_1.KEY.RIGHT)) {
+                    return true;
+                }
+                break;
+            }
+            case 4: {
+                if (this.inputs.justDown(key_enum_1.KEY.A)) {
+                    return true;
+                }
+                break;
+            }
+            case 5: {
+                if (this.inputs.justDown(key_enum_1.KEY.B)) {
+                    return true;
+                }
+                break;
+            }
+            case 6: {
+                if (this.inputs.justDown(key_enum_1.KEY.X)) {
+                    return true;
+                }
+                break;
+            }
+            case 7: {
+                if (this.inputs.justDown(key_enum_1.KEY.Z)) {
+                    return true;
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+    sfx() {
+        let ctx = new AudioContext();
+        let lfo = ctx.createOscillator();
         lfo.frequency.value = 1.0;
         // Create the high frequency oscillator to be modulated
-        var hfo = ctx.createOscillator();
+        let hfo = ctx.createOscillator();
         hfo.frequency.value = 440.0;
         // Create a gain node whose gain determines the amplitude of the modulation signal
-        var modulationGain = ctx.createGain();
+        let modulationGain = ctx.createGain();
         modulationGain.gain.value = 50;
         // Configure the graph and start the oscillators
         lfo.connect(modulationGain);
@@ -382,49 +447,49 @@ var API = /** @class */ (function () {
         hfo.connect(ctx.destination);
         hfo.start(0);
         lfo.start(0);
-    };
+    }
     /********************************************************************
      * Return the mouse coordinates.
      * @param  e [description]
      * @return   [The mouse coordinates]
      ********************************************************************/
-    API.prototype.mouse = function () {
+    mouse() {
         return this.inputs.getMousePosition();
-    };
+    }
     /********************************************************************
      * Get the game width in pixels
      * @return [game width]
      ********************************************************************/
-    API.prototype.ggw = function () {
+    ggw() {
         return this.cr.canvas.width / this.cr.options.scaleFactor;
-    };
+    }
     /********************************************************************
      * Get the game height in pixels
      * @return [game height]
      ********************************************************************/
-    API.prototype.ggh = function () {
+    ggh() {
         return this.cr.canvas.height / this.cr.options.scaleFactor;
-    };
-    API.prototype.ticks = function () {
+    }
+    ticks() {
         return this.passedTicks;
-    };
+    }
     /********************************************************************
      * [colorRangeError description]
      * @param color [description]
      ********************************************************************/
-    API.prototype.colorRangeError = function (color) {
+    colorRangeError(color) {
         if (color < 0 || color > 15) {
             throw new RangeError("You have selected an incorrect color index (" +
                 color +
                 "). The color must be between 0-15");
         }
-    };
+    }
     /********************************************************************
      * SPECIAL API FUNCTIONS
      ********************************************************************/
-    API.prototype.crc = function (c, r) {
-        var circleDistanceX = Math.abs(c.x - r.x);
-        var circleDistanceY = Math.abs(c.y - r.y);
+    crc(c, r) {
+        let circleDistanceX = Math.abs(c.x - r.x);
+        let circleDistanceY = Math.abs(c.y - r.y);
         if (circleDistanceX > r.w / 2 + c.r) {
             return false;
         }
@@ -437,11 +502,11 @@ var API = /** @class */ (function () {
         if (circleDistanceY <= r.h / 2) {
             return true;
         }
-        var cornerDistance_sq = (circleDistanceX - r.w / 2) * (circleDistanceX - r.w / 2) +
+        let cornerDistance_sq = (circleDistanceX - r.w / 2) * (circleDistanceX - r.w / 2) +
             (circleDistanceY - r.h / 2) * (circleDistanceY - r.h / 2);
         return cornerDistance_sq <= c.r * c.r;
-    };
-    API.prototype.rrc = function (r1, r2) {
+    }
+    rrc(r1, r2) {
         if (r1.x < r2.x + r2.w &&
             r1.x + r1.w > r2.x &&
             r1.y < r2.y + r2.h &&
@@ -449,8 +514,8 @@ var API = /** @class */ (function () {
             return true;
         }
         return false;
-    };
-    API.prototype.anim = function (object, startFrame, numberOfFrames, speed) {
+    }
+    anim(object, startFrame, numberOfFrames, speed) {
         if (!object.a_ct) {
             object.a_ct = 0;
         }
@@ -465,7 +530,6 @@ var API = /** @class */ (function () {
         }
         object.a_fr = startFrame + object.a_st;
         this.spr(object.a_fr, object.x, object.y);
-    };
-    return API;
-}());
+    }
+}
 exports.API = API;

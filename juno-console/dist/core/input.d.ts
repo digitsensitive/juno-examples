@@ -9,10 +9,12 @@ import { IMouseCoordinates } from "../interfaces/mouse-coordinates.interface";
 export declare class Input {
     private cr;
     private mouse;
+    private keys;
     private lastKeyPressed;
     constructor(cr: ICanvasRenderer);
     private registerEvents;
+    private registerKeyboardKeys;
     getMousePosition(): IMouseCoordinates;
-    getLastPressedKey(): number;
-    justDown(key: number): boolean;
+    isDown(code: number): boolean;
+    justDown(code: number): boolean;
 }

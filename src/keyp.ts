@@ -1,9 +1,9 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Btnp example
+ * @description  Keyp example
  *
- * A small example to show how to use the api.btnp() function.
+ * A small example to show how to use the api.keyp() function.
  *
  * @license      Digitsensitive
  */
@@ -20,7 +20,7 @@ export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
     this.addState({
-      name: "Btnp",
+      name: "Keyp",
       instance: this
     });
   }
@@ -32,21 +32,21 @@ export class Game extends Juno.Game {
   private render(dt: number): void {
     this.api.cls(1);
     this.api.rectb(22, 26, 20, 10, 6);
-    if (this.api.btnp(0)) {
+    if (this.api.keyp(0)) {
       this.api.print("Up", 25, 30, 6);
-    } else if (this.api.btnp(1)) {
+    } else if (this.api.keyp(1)) {
       this.api.print("Down", 25, 30, 6);
-    } else if (this.api.btnp(2)) {
+    } else if (this.api.keyp(2)) {
       this.api.print("Left", 25, 30, 6);
-    } else if (this.api.btnp(3)) {
+    } else if (this.api.keyp(3)) {
       this.api.print("Right", 25, 30, 6);
-    } else if (this.api.btnp(4)) {
+    } else if (this.api.keyp(4)) {
       this.api.print("A", 25, 30, 6);
-    } else if (this.api.btnp(5)) {
+    } else if (this.api.keyp(5)) {
       this.api.print("B", 25, 30, 6);
-    } else if (this.api.btnp(6)) {
+    } else if (this.api.keyp(6)) {
       this.api.print("X", 25, 30, 6);
-    } else if (this.api.btnp(7)) {
+    } else if (this.api.keyp(7)) {
       this.api.print("Y", 25, 30, 6);
     }
   }

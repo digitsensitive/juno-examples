@@ -10,10 +10,16 @@ import { IMouseCoordinates } from "../interfaces/mouse-coordinates.interface";
 
 export class Input {
   private mouse: IMouseCoordinates = {} as IMouseCoordinates;
+  private keys: Map<number, boolean>;
   private lastKeyPressed: number;
 
   constructor(private cr: ICanvasRenderer) {
     this.registerEvents();
+
+    if (this.cr.options.inputs.keyboard) {
+      this.lastKeyPressed = -1;
+      this.registerKeyboardKeys();
+    }
   }
 
   private registerEvents(): void {
@@ -28,27 +34,49 @@ export class Input {
 
     if (this.cr.options.inputs.keyboard) {
       window.addEventListener("keydown", e => {
-        this.lastKeyPressed = e.keyCode;
+        this.keys.set(e.keyCode, true);
       });
       window.addEventListener("keyup", e => {
-        this.lastKeyPressed = undefined;
+        this.lastKeyPressed = -1;
+        this.keys.set(e.keyCode, false);
       });
     }
+  }
+
+  private registerKeyboardKeys(): void {
+    this.keys = new Map([
+      [38, false],
+      [40, false],
+      [37, false],
+      [39, false],
+      [65, false],
+      [66, false],
+      [88, false],
+      [89, false]
+    ]);
   }
 
   public getMousePosition(): IMouseCoordinates {
     return this.mouse;
   }
 
-  public getLastPressedKey(): number {
-    return this.lastKeyPressed;
-  }
-
-  public justDown(key: number): boolean {
-    if (key === this.lastKeyPressed) {
+  public isDown(code: number): boolean {
+    if (this.keys.get(code)) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public justDown(code: number): boolean {
+    if (this.keys.get(code)) {
+      if (this.lastKeyPressed === code) {
+        this.lastKeyPressed = code;
+        return false;
+      } else {
+        this.lastKeyPressed = code;
+        return true;
+      }
     }
   }
 }

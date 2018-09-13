@@ -17,11 +17,11 @@
  * @license      {@link https://github.com/digitsensitive/juno-console/blob/master/license.txt|MIT License}
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var api_1 = require("./api");
-var loop_1 = require("./loop");
-var input_1 = require("./input");
-var Game = /** @class */ (function () {
-    function Game(config) {
+const api_1 = require("./api");
+const loop_1 = require("./loop");
+const input_1 = require("./input");
+class Game {
+    constructor(config) {
         /**
          * Init canvas
          */
@@ -89,7 +89,7 @@ var Game = /** @class */ (function () {
      * @param name      [the name of the state]
      * @param state     [the reference to the state]
      ********************************************************************/
-    Game.prototype.addState = function (state) {
+    addState(state) {
         // add state to states array
         this.states.push(state);
         // register events for the state
@@ -104,7 +104,6 @@ var Game = /** @class */ (function () {
         }, state.instance);
         // start the game loop with this state
         this.gameLoop.start(state.name);
-    };
-    return Game;
-}());
+    }
+}
 exports.Game = Game;

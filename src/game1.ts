@@ -160,34 +160,34 @@ export class Game extends Juno.Game {
   }
 
   handleInput(): void {
-    if (this.api.btnp(0)) {
+    if (this.api.key(0)) {
       this.ship.y -= 1;
     }
-    if (this.api.btnp(1)) {
+    if (this.api.key(1)) {
       this.ship.y += 1;
     }
-    if (this.api.btnp(2)) {
+    if (this.api.key(2)) {
       this.ship.x -= 2;
     }
-    if (this.api.btnp(3)) {
+    if (this.api.key(3)) {
       this.ship.x += 2;
     }
-    if (this.api.btnp(4)) {
+    if (this.api.keyp(4)) {
       if (this.ship.s !== 0) {
         this.ship.s--;
         this.superBomb();
       }
     }
-    if (this.api.btnp(5)) {
+    if (this.api.keyp(5)) {
       this.fire();
     }
-    if (this.api.btnp(6)) {
+    if (this.api.keyp(6)) {
       if (this.ship.l !== 0) {
         this.ship.l--;
         this.laserAttack();
       }
     }
-    if (this.api.btnp(7)) {
+    if (this.api.keyp(7)) {
       if (this.ship.d !== 0) {
         this.ship.d--;
         this.defensiveShield();
