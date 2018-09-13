@@ -1,16 +1,11 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Circ example
- *
- * A small example to show how to use the api.circ() function.
- * This example was rewritten from the TIC-80 Circ example writte in Lua:
- * https://github.com/nesbox/TIC-80/wiki/circb
- *
+ * @description  Juno Game Examples: Space Fighter
  * @license      Digitsensitive
  */
 
-import * as Juno from "../juno-console/dist/index";
+import * as Juno from "../../juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",

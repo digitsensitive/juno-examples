@@ -25,11 +25,11 @@ export class Game extends Juno.Game {
     });
   }
 
-  private init() {}
+  init() {}
 
-  private update(dt: number): void {}
+  update(): void {}
 
-  private render(dt: number): void {
+  render(): void {
     this.api.cls(1);
     this.api.rectb(22, 26, 20, 10, 6);
     if (this.api.key(0)) {
