@@ -8,7 +8,7 @@
 export interface IGameConfig {
   name: string;
   scale: number;
-  allowedInputs?: { keyboard?: boolean; mouse?: boolean };
+  input?: { keyboard?: boolean; mouse?: boolean };
   width?: number;
   height?: number;
   fullscreen?: boolean;

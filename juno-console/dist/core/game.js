@@ -59,12 +59,8 @@ class Game {
             options: {
                 scaleFactor: this.scaleFactor,
                 inputs: {
-                    keyboard: config.allowedInputs.keyboard !== undefined
-                        ? config.allowedInputs.keyboard
-                        : true,
-                    mouse: config.allowedInputs.mouse !== undefined
-                        ? config.allowedInputs.mouse
-                        : false
+                    keyboard: config.input.keyboard !== undefined ? config.input.keyboard : true,
+                    mouse: config.input.mouse !== undefined ? config.input.mouse : false
                 }
             }
         });
@@ -76,7 +72,7 @@ class Game {
             renderer: this.renderer,
             options: { scaleFactor: this.scaleFactor }
         }, this.inputs);
-        this.api.ipal("140C1C44243430346D4E4A4F854C30346524D04648757161597DCED27D2C8595A16DAA2CD2AA996DC2CADAD45EDEEED6");
+        this.api.ipal("1a1c2c572956b14156ee7b58ffd079a0f07238b86e276e7b29366f405bd04fa4f786ecf8f4f4f493b6c1557185324056");
         /**
          * Array with the game states
          */

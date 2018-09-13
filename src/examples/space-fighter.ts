@@ -9,43 +9,25 @@ import * as Juno from "../../juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
-  allowedInputs: { keyboard: true },
+  input: { keyboard: true },
   scale: 8
 };
 
 export class Game extends Juno.Game {
-  private a: number = 0;
-  private space: number = 10;
-
   constructor(config: Juno.IGameConfig) {
     super(config);
     this.addState({
-      name: "Circ",
+      name: "SpaceFighter",
       instance: this
     });
   }
 
-  private init() {}
+  init(): void {}
 
-  private update(dt: number): void {}
+  update(): void {}
 
-  private render(dt: number): void {
+  render(): void {
     this.api.cls(3);
-    for (let i = 0; i < 200; i += this.space) {
-      this.api.circb(
-        15 + 10 * Math.sin(this.a),
-        7 + 5 * Math.cos(this.a),
-        i + ((performance.now() / 40) % this.space),
-        8
-      );
-      this.api.circb(
-        15 + 10 * Math.sin(this.a / 2),
-        7 + 5 * Math.cos(this.a / 2),
-        i + ((performance.now() / 40) % this.space),
-        10
-      );
-    }
-    this.a = this.a + Math.PI / 240;
   }
 }
 

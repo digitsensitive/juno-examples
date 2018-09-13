@@ -7,7 +7,7 @@
 export interface IGameConfig {
     name: string;
     scale: number;
-    allowedInputs?: {
+    input?: {
         keyboard?: boolean;
         mouse?: boolean;
     };

@@ -78,13 +78,8 @@ export class Game {
         scaleFactor: this.scaleFactor,
         inputs: {
           keyboard:
-            config.allowedInputs.keyboard !== undefined
-              ? config.allowedInputs.keyboard
-              : true,
-          mouse:
-            config.allowedInputs.mouse !== undefined
-              ? config.allowedInputs.mouse
-              : false
+            config.input.keyboard !== undefined ? config.input.keyboard : true,
+          mouse: config.input.mouse !== undefined ? config.input.mouse : false
         }
       }
     });
