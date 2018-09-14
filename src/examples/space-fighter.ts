@@ -16,7 +16,6 @@ const config: Juno.IGameConfig = {
 export class Game extends Juno.Game {
   // variables
   private ns = 10; // number of stars
-  private ne = 1; // number of enemies
   private a = 1; // alpha value for title text
   private sc = 5000; // time to travel
   private es = 1.5; // enemy speed
