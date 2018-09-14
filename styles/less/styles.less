@@ -1,5 +1,10 @@
 // out: ../css/styles.css, sourcemap: false, compress: true
 
+@font-size: 10px;
+@font-color: #1a1c2c;
+@background-color: #f4f4f4;
+@h1-size: 30px;
+
 @font-face {
   font-family: "Juno";
   src: url("../../juno-console/lib/assets/font/font.ttf");
@@ -7,7 +12,32 @@
   -webkit-font-smoothing: none;
 }
 
-html,
+head {
+}
+
 body {
-  overflow: hidden;
+  font-size: @font-size;
+  color: @font-color;
+  background-color: @background-color;
+
+  div.container {
+    text-align: center;
+    margin-top: 5%;
+
+    h1 {
+      font-family: "Juno";
+      padding: 0px;
+      margin-top: 0.1rem;
+      font-size: @h1-size;
+    }
+
+    div#game {
+      border: 2rem solid #a0f072;
+      box-shadow: 0 20px 50px rgba(26, 28, 44, 0.4);
+      border-radius: 20px;
+      margin: 1rem;
+
+      display: inline-block;
+    }
+  }
 }
