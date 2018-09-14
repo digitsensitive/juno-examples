@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../juno-console/dist/index";
+import * as Juno from "../../node_modules/juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",

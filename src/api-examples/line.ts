@@ -10,7 +10,7 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../juno-console/dist/index";
+import * as Juno from "../../node_modules/juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
@@ -31,9 +31,9 @@ export class Game extends Juno.Game {
     });
   }
 
-  private update(dt: number): void {}
+  update(): void {}
 
-  private render(dt: number): void {
+  render(): void {
     this.api.cls(3);
 
     for (let i = this.t % 8; i <= 63; i = i + 8) {

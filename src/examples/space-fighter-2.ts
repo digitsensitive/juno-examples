@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../juno-console/dist/index";
+import * as Juno from "../../node_modules/juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
@@ -149,7 +149,7 @@ export class Game extends Juno.Game {
   }
 
   init(): void {
-    this.api.load("sprites", "./src/assets/", 8);
+    this.api.load("sprites", "./src/assets/examples/space-fighter-2/", 8);
     this.addBackground();
   }
 

@@ -1,48 +1,39 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Spr example
+ * @description  Print example
  *
- * A small example to show how to use the api.spr() function.
+ * A small example to show how to use the api.print() function.
  *
  * @license      Digitsensitive
  */
 
-import * as Juno from "../juno-console/dist/index";
+import * as Juno from "../../node_modules/juno-console/dist/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
   input: { keyboard: true },
-  scale: 8
+  scale: 10
 };
 
 export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
     this.addState({
-      name: "Spr",
+      name: "Print",
       instance: this
     });
   }
 
-  private init() {
-    this.api.load("sprites", "./src/assets/", 8);
-  }
+  init(): void {}
 
-  private update(dt: number): void {}
+  update(): void {}
 
-  private render(dt: number): void {
+  render(): void {
     this.api.cls(1);
 
     this.api.print("HELLO JUNO!", 16.1, 30.1, 4);
     this.api.print("HELLO JUNO!", 16, 30, 12);
-    let i = 0;
-    for (let y = 0; y < 8; y++) {
-      for (let x = 0; x < 8; x++) {
-        this.api.spr(i, x * 8, y * 8);
-        i++;
-      }
-    }
   }
 }
 
