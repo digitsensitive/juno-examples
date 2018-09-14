@@ -52,7 +52,7 @@ class API {
         this.palette = [];
         let fromPositionInString = 0;
         while (fromPositionInString < 96) {
-            this.palette.push(palette.substr(fromPositionInString, 6));
+            this.palette.push("#" + palette.substr(fromPositionInString, 6));
             fromPositionInString += 6;
         }
     }
@@ -70,7 +70,7 @@ class API {
             // evaluate runtime errors
             this.colorRangeError(c);
             // draw the selected color on screen
-            context.fillStyle = "#" + this.palette[c];
+            context.fillStyle = this.palette[c];
             context.fillRect(0, 0, this.cr.canvas.width, this.cr.canvas.height);
         }
         // update ticks
@@ -85,10 +85,8 @@ class API {
     pix(x0, y0, c) {
         // evaluate runtime errors
         this.colorRangeError(c);
-        const context = this.cr.renderer;
-        const sF = this.cr.options.scaleFactor;
-        context.fillStyle = "#" + this.palette[c];
-        context.fillRect(x0 * sF, y0 * sF, sF, sF);
+        this.cr.renderer.fillStyle = this.palette[c];
+        this.cr.renderer.fillRect(x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, this.cr.options.scaleFactor, this.cr.options.scaleFactor);
     }
     /********************************************************************
      * Create a circle outline with the Bresenham's circle algorithm.
@@ -232,7 +230,7 @@ class API {
             throw new RangeError("The height of a rectangle must be > 0. ");
         }
         this.colorRangeError(c);
-        this.cr.renderer.fillStyle = "#" + this.palette[c];
+        this.cr.renderer.fillStyle = this.palette[c];
         this.cr.renderer.fillRect(x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor, w * this.cr.options.scaleFactor, h * this.cr.options.scaleFactor);
     }
     /********************************************************************
@@ -280,7 +278,7 @@ class API {
         let size = sc * 3 * this.cr.options.scaleFactor || 3 * this.cr.options.scaleFactor;
         this.cr.renderer.font = size + "px Juno";
         this.cr.renderer.fillStyle =
-            "#" + this.palette[c] + this.calculateAlphaHexCode(a || 1);
+            this.palette[c] + this.calculateAlphaHexCode(a || 1);
         this.cr.renderer.fillText(s, x0 * this.cr.options.scaleFactor, y0 * this.cr.options.scaleFactor + size);
     }
     /********************************************************************
