@@ -123,13 +123,11 @@ export class API {
     let y = r;
     let p = 3 - 2 * r;
     this.circbPixGroup(x0, y0, x, y, c);
-
     while (x < y) {
+      x++;
       if (p < 0) {
-        x++;
         p = p + 4 * x + 6;
       } else {
-        x++;
         y--;
         p = p + 4 * (x - y) + 10;
       }
@@ -163,27 +161,28 @@ export class API {
   }
 
   /********************************************************************
+   * Filled Circle (100%)
    * Create a filled circle with the Bresenham's circle algorithm.
-   * @param  x         [x coordinate of the center of the circle]
-   * @param  y         [y coordinate of the center of the circle]
-   * @param  r         [radius of the circle]
-   * @param  c         [index of the color in the palette]
+   * @param x0 [x coordinate of the center of the circle]
+   * @param y0 [y coordinate of the center of the circle]
+   * @param r  [radius of the circle]
+   * @param c  [index of the color in the palette]
    ********************************************************************/
   public circ(x0: number, y0: number, r: number, c: number): void {
     // evaluate runtime errors
     this.colorRangeError(c);
 
+    // draw filled circle
     let x = 0;
     let y = r;
     let p = 3 - 2 * r;
     this.circPixGroup(x0, y0, x, y, c);
 
     while (x < y) {
+      x++;
       if (p < 0) {
-        x++;
         p = p + 4 * x + 6;
       } else {
-        x++;
         y--;
         p = p + 4 * (x - y) + 10;
       }
@@ -192,12 +191,13 @@ export class API {
   }
 
   /********************************************************************
-   * [pixel description]
-   * @param xc [description]
-   * @param yc [description]
-   * @param x  [description]
-   * @param y  [description]
-   * @param c  [description]
+   * Group of pixel lines (100%)
+   * Draws a group of lines, used for drawing a filled circle.
+   * @param x0 [first x coordinate]
+   * @param y0 [first y coordinate]
+   * @param x  [second x coordinate]
+   * @param y  [second y coordinate]
+   * @param c  [index of the color in the palette]
    ********************************************************************/
   private circPixGroup(
     x0: number,
@@ -206,10 +206,10 @@ export class API {
     y: number,
     c: number
   ): void {
-    this.line(x0 - x, y0 + y, x0 + x, y0 + y, c);
-    this.line(x0 + x, y0 - y, x0 - x, y0 - y, c);
     this.line(x0 + x, y0 + y, x0 - x, y0 + y, c);
     this.line(x0 + x, y0 - y, x0 - x, y0 - y, c);
+    this.line(x0 + y, y0 + x, x0 - y, y0 + x, c);
+    this.line(x0 + y, y0 - x, x0 - y, y0 - x, c);
   }
 
   /********************************************************************
@@ -318,6 +318,7 @@ export class API {
     x0: number,
     y0: number,
     c: number,
+    a?: number,
     sc?: number
   ): void {
     // evaluate runtime errors
@@ -331,7 +332,8 @@ export class API {
     let size =
       sc * 3 * this.cr.options.scaleFactor || 3 * this.cr.options.scaleFactor;
     this.cr.renderer.font = size + "px Juno";
-    this.cr.renderer.fillStyle = "#" + this.palette[c];
+    this.cr.renderer.fillStyle =
+      "#" + this.palette[c] + this.calculateAlphaHexCode(a || 1);
     this.cr.renderer.fillText(
       s,
       x0 * this.cr.options.scaleFactor,
@@ -567,15 +569,20 @@ export class API {
     return this.passedTicks;
   }
 
+  public rnd(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   /********************************************************************
-   * [colorRangeError description]
-   * @param color [description]
+   * Color Range Error (100%)
+   * Check if the selected color is between 0 and 15.
+   * @param c [the color to check]
    ********************************************************************/
-  private colorRangeError(color: number): void {
-    if (color < 0 || color > 15) {
+  private colorRangeError(c: number): void {
+    if (c < 0 || c > 15) {
       throw new RangeError(
         "You have selected an incorrect color index (" +
-          color +
+          c +
           "). The color must be between 0-15"
       );
     }
@@ -644,5 +651,15 @@ export class API {
     object.a_fr = startFrame + object.a_st;
 
     this.spr(object.a_fr, object.x, object.y);
+  }
+
+  private calculateAlphaHexCode(a: number): string {
+    a = Math.round(a * 100) / 100;
+    var alpha = Math.round(a * 255);
+    var hex = (alpha + 0x10000)
+      .toString(16)
+      .substr(-2)
+      .toUpperCase();
+    return hex;
   }
 }
