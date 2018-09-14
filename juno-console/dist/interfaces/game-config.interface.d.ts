@@ -14,4 +14,10 @@ export interface IGameConfig {
     width?: number;
     height?: number;
     fullscreen?: boolean;
+    css?: {
+        borderWidth?: string;
+        borderStyle?: string;
+        borderColor?: string;
+        borderRadius?: string;
+    };
 }

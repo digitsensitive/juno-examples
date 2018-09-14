@@ -10,7 +10,13 @@ import * as Juno from "../../juno-console/dist/index";
 const config: Juno.IGameConfig = {
   name: "game",
   input: { keyboard: true },
-  scale: 8
+  scale: 8,
+  css: {
+    borderWidth: "2rem",
+    borderStyle: "solid",
+    borderColor: "#a0f072",
+    borderRadius: "20px"
+  }
 };
 
 export class Game extends Juno.Game {

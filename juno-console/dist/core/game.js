@@ -29,6 +29,36 @@ class Game {
         document.getElementById(config.name).appendChild(this.canvas);
         this.canvas.style.cursor = "none";
         /**
+         * Init CSS properties
+         */
+        if (config.css === undefined) {
+            config.css = {};
+        }
+        if (config.css.borderWidth === undefined) {
+            config.css.borderWidth = "2rem";
+        }
+        if (config.css.borderStyle === undefined) {
+            config.css.borderStyle = "solid";
+        }
+        if (config.css.borderColor === undefined) {
+            config.css.borderColor = "#1a1c2c";
+        }
+        if (config.css.borderRadius === undefined) {
+            config.css.borderRadius = "20px";
+        }
+        document
+            .getElementById(config.name)
+            .style.setProperty("--border-width", config.css.borderWidth);
+        document
+            .getElementById(config.name)
+            .style.setProperty("--border-style", config.css.borderStyle);
+        document
+            .getElementById(config.name)
+            .style.setProperty("--border-color", config.css.borderColor);
+        document
+            .getElementById(config.name)
+            .style.setProperty("--border-radius", config.css.borderRadius);
+        /**
          * Init renderer
          */
         this.renderer = this.canvas.getContext("2d");

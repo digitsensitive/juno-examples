@@ -54,7 +54,7 @@ export declare class API {
      * Clear the screen with a specified color.
      * @param color [index of the color in the palette]
      /********************************************************************/
-    cls(c: number): void;
+    cls(c?: number): void;
     /********************************************************************
      * Draw one pixel at a specific 2D location (x and y).
      * @param x0    [x coordinate of the pixel]

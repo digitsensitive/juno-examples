@@ -67,26 +67,23 @@ export class API {
    * Clear the screen with a specified color.
    * @param color [index of the color in the palette]
    /********************************************************************/
-  public cls(c: number): void {
-    // evaluate runtime errors
-    this.colorRangeError(c);
+  public cls(c?: number): void {
+    const context = this.cr.renderer;
+
+    if (c === undefined) {
+      // clear screen
+      context.clearRect(0, 0, this.cr.canvas.width, this.cr.canvas.height);
+    } else {
+      // evaluate runtime errors
+      this.colorRangeError(c);
+
+      // draw the selected color on screen
+      context.fillStyle = "#" + this.palette[c];
+      context.fillRect(0, 0, this.cr.canvas.width, this.cr.canvas.height);
+    }
 
     // update ticks
     this.passedTicks += 1;
-
-    this.cr.renderer.clearRect(
-      0,
-      0,
-      this.cr.canvas.width,
-      this.cr.canvas.height
-    );
-    this.cr.renderer.fillStyle = "#" + this.palette[c];
-    this.cr.renderer.fillRect(
-      0,
-      0,
-      this.cr.canvas.width,
-      this.cr.canvas.height
-    );
   }
 
   /********************************************************************
@@ -99,13 +96,10 @@ export class API {
     // evaluate runtime errors
     this.colorRangeError(c);
 
-    this.cr.renderer.fillStyle = "#" + this.palette[c];
-    this.cr.renderer.fillRect(
-      x0 * this.cr.options.scaleFactor,
-      y0 * this.cr.options.scaleFactor,
-      this.cr.options.scaleFactor,
-      this.cr.options.scaleFactor
-    );
+    const context = this.cr.renderer;
+    const sF = this.cr.options.scaleFactor;
+    context.fillStyle = "#" + this.palette[c];
+    context.fillRect(x0 * sF, y0 * sF, sF, sF);
   }
 
   /********************************************************************
