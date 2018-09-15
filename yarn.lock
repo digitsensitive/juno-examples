@@ -1671,9 +1671,9 @@ json5@^0.5.0:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
 
-juno-console@^0.0.39:
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/juno-console/-/juno-console-0.0.39.tgz#e540eaac27b4c51c4741f72eb90793913e1cf792"
+juno-console@^0.0.40:
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/juno-console/-/juno-console-0.0.40.tgz#a2cbc26ab6242617948ca84c466a500882a259dd"
   dependencies:
     eventemitter3 "^3.1.0"
     performance-now "^2.1.0"

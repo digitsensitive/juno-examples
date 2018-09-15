@@ -19,7 +19,7 @@
     "webpack-dev-server": "^3.1.7"
   },
   "dependencies": {
-    "juno-console": "^0.0.39"
+    "juno-console": "^0.0.40"
   },
   "scripts": {
     "dev": "webpack --mode development && webpack-dev-server --mode development",
