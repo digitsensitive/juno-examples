@@ -1,5 +1,5 @@
 <p align="center">
-  <img width=100% src="https://github.com/digitsensitive/juno-examples/blob/master/assets/github/juno-examples.png">
+  <img width=100% src="https://github.com/digitsensitive/juno-examples/blob/master/assets/github/juno.png">
 </p>
 
 [![dependencies status badge](https://david-dm.org/digitsensitive/juno-examples/status.svg)](https://david-dm.org/digitsensitive/juno-examples)
