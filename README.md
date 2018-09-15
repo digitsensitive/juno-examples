@@ -18,6 +18,8 @@ What are you waiting for? Start with Juno and create games in a nutshell!
 
 ## Examples
 
+- [Boilerplate](https://github.com/digitsensitive/juno-examples/tree/master/src/boilerplate)
+- [Basic API functions](https://github.com/digitsensitive/juno-examples/tree/master/src/api-examples)
 
 ## Changelog
 

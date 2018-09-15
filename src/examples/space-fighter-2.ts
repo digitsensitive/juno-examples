@@ -149,7 +149,7 @@ export class Game extends Juno.Game {
   }
 
   init(): void {
-    this.api.load("sprites", "./src/assets/examples/space-fighter-2/", 8);
+    this.api.load("sprites", "./assets/examples/space-fighter-2/", 8);
     this.addBackground();
   }
 

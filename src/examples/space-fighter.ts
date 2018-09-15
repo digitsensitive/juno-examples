@@ -50,7 +50,7 @@ export class Game extends Juno.Game {
 
   init(): void {
     // load space fighter spritesheet
-    this.api.load("sprites", "./src/assets/examples/space-fighter/", 8);
+    this.api.load("sprites", "./assets/examples/space-fighter/", 8);
 
     // init stars
     for (let i = 0; i < this.ns; i++) {
