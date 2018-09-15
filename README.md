@@ -27,3 +27,8 @@ What are you waiting for? Start with Juno and create games in a nutshell!
 
 Want to correct a bug, contribute some code, or improve the codes?
 Excellent! Let me know!
+
+## License
+
+This project is licensed under the MIT License - see the
+[LICENSE.md](https://github.com/digitsensitive/juno-examples/blob/master/LICENSE.md) file for details.
