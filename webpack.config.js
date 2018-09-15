@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/api-examples/pget.ts',
+  entry: './src/boilerplate/boilerplate.ts',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'

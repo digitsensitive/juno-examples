@@ -1,9 +1,13 @@
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
  * @copyright    2018 Digitsensitive
- * @description  Juno Game Examples: Space Fighter II
+ * @description  Juno Game Examples: Attacker
  * @license      Digitsensitive
  */
+
+/*****************************************************************************
+ * THIS GAME IS WORK IN PROGRESS (!!!)
+ ****************************************************************************/
 
 import * as Juno from "../../node_modules/juno-console/dist/index";
 
@@ -143,13 +147,13 @@ export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
     this.addState({
-      name: "SpaceFighter2",
+      name: "Attacker",
       instance: this
     });
   }
 
   init(): void {
-    this.api.load("sprites", "./assets/examples/space-fighter-2/", 8);
+    this.api.load("sprites", "./assets/examples/attacker/", 8);
     this.addBackground();
   }
 
