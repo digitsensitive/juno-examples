@@ -10,14 +10,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [X.X.X] - YYYY-MM-DD
 
 ### Changes
-- XYZ *[Tested: , ]*
+- XYZ *[Author: name (xxxx-xx-xx)]*
 
 ### TODO
 - XYZ
 
 ---
 
+## [0.0.X] - 2018-XX-XX
+
+### Changes
+- Add first version of the game pong *[Author: digitsensitive (2018-12-13)]*
+
+---
+
 ## [0.0.1] - 2018-09-15
 
 ### Changes
-- First release of Juno Examples *[Tested: 2018-09-15, digitsensitive]*
+- First release of Juno Examples *[Author: digitsensitive (2018-09-15)]*
