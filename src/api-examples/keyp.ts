@@ -8,21 +8,18 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../node_modules/juno-console/dist/index";
+import * as Juno from "../../../juno/lib/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
   input: { keyboard: true },
-  scale: 8
+  scale: 8,
 };
 
 export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.addState({
-      name: "Keyp",
-      instance: this
-    });
+    this.startLoop();
   }
 
   init(): void {}
@@ -30,24 +27,24 @@ export class Game extends Juno.Game {
   update(): void {}
 
   render(): void {
-    this.api.cls(1);
-    this.api.rectb(22, 26, 20, 10, 6);
-    if (this.api.keyp(0)) {
-      this.api.print("Up", 25, 30, 6);
-    } else if (this.api.keyp(1)) {
-      this.api.print("Down", 25, 30, 6);
-    } else if (this.api.keyp(2)) {
-      this.api.print("Left", 25, 30, 6);
-    } else if (this.api.keyp(3)) {
-      this.api.print("Right", 25, 30, 6);
-    } else if (this.api.keyp(4)) {
-      this.api.print("A", 25, 30, 6);
-    } else if (this.api.keyp(5)) {
-      this.api.print("B", 25, 30, 6);
-    } else if (this.api.keyp(6)) {
-      this.api.print("X", 25, 30, 6);
-    } else if (this.api.keyp(7)) {
-      this.api.print("Y", 25, 30, 6);
+    this.graphics.cls(1);
+    this.graphics.rectb(22, 26, 20, 10, 6);
+    if (this.graphics.keyp(0)) {
+      this.graphics.print("Up", 25, 30, 6);
+    } else if (this.graphics.keyp(1)) {
+      this.graphics.print("Down", 25, 30, 6);
+    } else if (this.graphics.keyp(2)) {
+      this.graphics.print("Left", 25, 30, 6);
+    } else if (this.graphics.keyp(3)) {
+      this.graphics.print("Right", 25, 30, 6);
+    } else if (this.graphics.keyp(4)) {
+      this.graphics.print("A", 25, 30, 6);
+    } else if (this.graphics.keyp(5)) {
+      this.graphics.print("B", 25, 30, 6);
+    } else if (this.graphics.keyp(6)) {
+      this.graphics.print("X", 25, 30, 6);
+    } else if (this.graphics.keyp(7)) {
+      this.graphics.print("Y", 25, 30, 6);
     }
   }
 }

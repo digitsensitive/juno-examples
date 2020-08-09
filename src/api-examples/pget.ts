@@ -8,7 +8,7 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../node_modules/juno-console/dist/index";
+import * as Juno from "../../../juno/lib/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
@@ -18,17 +18,14 @@ const config: Juno.IGameConfig = {
     borderWidth: "2rem",
     borderStyle: "solid",
     borderColor: "#ffd079",
-    borderRadius: "20px"
-  }
+    borderRadius: "20px",
+  },
 };
 
 export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.addState({
-      name: "pget",
-      instance: this
-    });
+    this.startLoop();
   }
 
   init(): void {}
@@ -36,13 +33,13 @@ export class Game extends Juno.Game {
   update(): void {}
 
   render(): void {
-    this.api.cls(0);
-    this.api.pix(20, 20, 3);
-    this.api.pix(25, 20, 5);
-    this.api.pix(30, 20, 11);
-    this.api.print(this.api.pget(20, 20) + "", 20, 30, 3);
-    this.api.print(this.api.pget(25, 20) + "", 25, 30, 5);
-    this.api.print(this.api.pget(30, 20) + "", 30, 30, 11);
+    this.graphics.cls(0);
+    this.graphics.pix(20, 20, 3);
+    this.graphics.pix(25, 20, 5);
+    this.graphics.pix(30, 20, 11);
+    this.graphics.print(this.graphics.pget(20, 20) + "", 20, 30, 3);
+    this.graphics.print(this.graphics.pget(25, 20) + "", 25, 30, 5);
+    this.graphics.print(this.graphics.pget(30, 20) + "", 30, 30, 11);
   }
 }
 

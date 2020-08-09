@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../node_modules/juno-console/dist/index";
+import * as Juno from "../../../juno/lib/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
@@ -15,8 +15,8 @@ const config: Juno.IGameConfig = {
     borderWidth: "2rem",
     borderStyle: "solid",
     borderColor: "#a0f072",
-    borderRadius: "20px"
-  }
+    borderRadius: "20px",
+  },
 };
 
 export class Game extends Juno.Game {
@@ -24,25 +24,25 @@ export class Game extends Juno.Game {
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.addState({
-      name: "PerformancePixel",
-      instance: this
-    });
+    this.startLoop();
   }
 
   init(): void {
     for (let i = 0; i < 4096; i++) {
-      this.pixels.push({ x: this.api.rnd(0, 64), y: this.api.rnd(0, 64) });
+      this.pixels.push({
+        x: this.graphics.rnd(0, 64),
+        y: this.graphics.rnd(0, 64),
+      });
     }
   }
 
   update(): void {}
 
   render(): void {
-    this.api.cls(12);
+    this.graphics.cls(12);
     let l = this.pixels.length;
     for (let i = 0; i < l; i++) {
-      this.api.pix(this.pixels[i].x, this.pixels[i].y, 4);
+      this.graphics.pix(this.pixels[i].x, this.pixels[i].y, 4);
     }
   }
 }

@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../node_modules/juno-console/dist/index";
+import * as Juno from "../../../juno/lib/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
@@ -15,8 +15,8 @@ const config: Juno.IGameConfig = {
     borderWidth: "2rem",
     borderStyle: "solid",
     borderColor: "#567184",
-    borderRadius: "0px"
-  }
+    borderRadius: "0px",
+  },
 };
 
 export class Game extends Juno.Game {
@@ -25,36 +25,33 @@ export class Game extends Juno.Game {
 
   // objects
   private b = {
-    x: this.api.ggw() / 2,
-    y: this.api.ggh() / 2,
+    x: this.graphics.ggw() / 2,
+    y: this.graphics.ggh() / 2,
     vx: -2,
     vy: -1,
     w: 1,
-    h: 1
+    h: 1,
   }; // ball
 
   private p1 = {
     x: 6,
-    y: this.api.ggh() / 2 - 3,
+    y: this.graphics.ggh() / 2 - 3,
     vy: 1,
     w: 1,
-    h: 6
+    h: 6,
   }; // player one
 
   private p2 = {
     x: 56,
-    y: this.api.ggh() / 2 - 3,
+    y: this.graphics.ggh() / 2 - 3,
     vy: 1,
     w: 1,
-    h: 6
+    h: 6,
   }; // player two
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.addState({
-      name: "Pong",
-      instance: this
-    });
+    this.startLoop();
   }
 
   init(): void {}
@@ -68,21 +65,21 @@ export class Game extends Juno.Game {
       // check ball border collisions
       if (
         this.b.x < 0 ||
-        this.b.x > this.api.ggw() - this.b.w ||
-        this.api.rrc(this.p1, this.b) ||
-        this.api.rrc(this.p2, this.b)
+        this.b.x > this.graphics.ggw() - this.b.w ||
+        this.graphics.rrc(this.p1, this.b) ||
+        this.graphics.rrc(this.p2, this.b)
       ) {
         this.b.vx *= -1;
       }
-      if (this.b.y < 0 || this.b.y > this.api.ggh() - this.b.h) {
+      if (this.b.y < 0 || this.b.y > this.graphics.ggh() - this.b.h) {
         this.b.vy *= -1;
       }
 
       // PLAYER ONE
       // input player one
-      if (this.api.key(0)) {
+      if (this.graphics.key(0)) {
         this.p1.vy -= 0.2;
-      } else if (this.api.key(1)) {
+      } else if (this.graphics.key(1)) {
         this.p1.vy += 0.2;
       } else {
         this.p1.vy = 0;
@@ -104,15 +101,15 @@ export class Game extends Juno.Game {
         this.p1.y = 0;
       }
 
-      if (this.p1.y > this.api.ggh() - this.p1.h) {
-        this.p1.y = this.api.ggh() - this.p1.h;
+      if (this.p1.y > this.graphics.ggh() - this.p1.h) {
+        this.p1.y = this.graphics.ggh() - this.p1.h;
       }
 
       // PLAYER TWO
       // input player two
-      if (this.api.key(2)) {
+      if (this.graphics.key(2)) {
         this.p2.vy -= 0.2;
-      } else if (this.api.key(3)) {
+      } else if (this.graphics.key(3)) {
         this.p2.vy += 0.2;
       } else {
         this.p2.vy = 0;
@@ -134,20 +131,20 @@ export class Game extends Juno.Game {
         this.p2.y = 0;
       }
 
-      if (this.p2.y > this.api.ggh() - this.p2.h) {
-        this.p2.y = this.api.ggh() - this.p2.h;
+      if (this.p2.y > this.graphics.ggh() - this.p2.h) {
+        this.p2.y = this.graphics.ggh() - this.p2.h;
       }
     }
   }
 
   render(): void {
-    this.api.cls(0);
-    for (let y = 0; y < this.api.ggh(); y += 2) {
-      this.api.rect(this.api.ggw() / 2, y, 1, 1, 14);
+    this.graphics.cls(0);
+    for (let y = 0; y < this.graphics.ggh(); y += 2) {
+      this.graphics.rect(this.graphics.ggw() / 2, y, 1, 1, 14);
     }
-    this.api.rect(this.b.x, this.b.y, this.b.w, this.b.h, 12);
-    this.api.rect(this.p1.x, this.p1.y, this.p1.w, this.p1.h, 12);
-    this.api.rect(this.p2.x, this.p2.y, this.p2.w, this.p2.h, 12);
+    this.graphics.rect(this.b.x, this.b.y, this.b.w, this.b.h, 12);
+    this.graphics.rect(this.p1.x, this.p1.y, this.p1.w, this.p1.h, 12);
+    this.graphics.rect(this.p2.x, this.p2.y, this.p2.w, this.p2.h, 12);
   }
 }
 

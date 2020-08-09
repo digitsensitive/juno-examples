@@ -8,21 +8,18 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../node_modules/juno-console/dist/index";
+import * as Juno from "../../../juno/lib/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
   input: { keyboard: true },
-  scale: 8
+  scale: 8,
 };
 
 export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.addState({
-      name: "Key",
-      instance: this
-    });
+    this.startLoop();
   }
 
   init(): void {}
@@ -30,24 +27,24 @@ export class Game extends Juno.Game {
   update(): void {}
 
   render(): void {
-    this.api.cls(1);
-    this.api.rectb(22, 26, 20, 10, 6);
-    if (this.api.key(0)) {
-      this.api.print("Up", 25, 30, 6);
-    } else if (this.api.key(1)) {
-      this.api.print("Down", 25, 30, 6);
-    } else if (this.api.key(2)) {
-      this.api.print("Left", 25, 30, 6);
-    } else if (this.api.key(3)) {
-      this.api.print("Right", 25, 30, 6);
-    } else if (this.api.key(4)) {
-      this.api.print("A", 25, 30, 6);
-    } else if (this.api.key(5)) {
-      this.api.print("B", 25, 30, 6);
-    } else if (this.api.key(6)) {
-      this.api.print("X", 25, 30, 6);
-    } else if (this.api.key(7)) {
-      this.api.print("Y", 25, 30, 6);
+    this.graphics.cls(1);
+    this.graphics.rectb(22, 26, 20, 10, 6);
+    if (this.graphics.key(0)) {
+      this.graphics.print("Up", 25, 30, 6);
+    } else if (this.graphics.key(1)) {
+      this.graphics.print("Down", 25, 30, 6);
+    } else if (this.graphics.key(2)) {
+      this.graphics.print("Left", 25, 30, 6);
+    } else if (this.graphics.key(3)) {
+      this.graphics.print("Right", 25, 30, 6);
+    } else if (this.graphics.key(4)) {
+      this.graphics.print("A", 25, 30, 6);
+    } else if (this.graphics.key(5)) {
+      this.graphics.print("B", 25, 30, 6);
+    } else if (this.graphics.key(6)) {
+      this.graphics.print("X", 25, 30, 6);
+    } else if (this.graphics.key(7)) {
+      this.graphics.print("Y", 25, 30, 6);
     }
   }
 }

@@ -8,38 +8,35 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../node_modules/juno-console/dist/index";
+import * as Juno from "../../../juno/lib/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
   input: { keyboard: true },
-  scale: 8
+  scale: 8,
 };
 
 export class Game extends Juno.Game {
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.addState({
-      name: "Spr",
-      instance: this
-    });
+    this.startLoop();
   }
 
   init(): void {
-    this.api.load("sprites", "./src/assets/", 8);
+    this.graphics.load("sprites", "./src/assets/", 8);
   }
 
   update(): void {}
 
   render(): void {
-    this.api.cls(1);
+    this.graphics.cls(1);
 
-    this.api.print("HELLO JUNO!", 16.1, 30.1, 4);
-    this.api.print("HELLO JUNO!", 16, 30, 12);
+    this.graphics.print("HELLO JUNO!", 16.1, 30.1, 4);
+    this.graphics.print("HELLO JUNO!", 16, 30, 12);
     let i = 0;
     for (let y = 0; y < 8; y++) {
       for (let x = 0; x < 8; x++) {
-        this.api.spr(i, x * 8, y * 8);
+        this.graphics.spr(i, x * 8, y * 8);
         i++;
       }
     }

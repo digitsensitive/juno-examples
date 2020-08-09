@@ -10,12 +10,12 @@
  * @license      Digitsensitive
  */
 
-import * as Juno from "../../node_modules/juno-console/dist/index";
+import * as Juno from "../../../juno/lib/index";
 
 const config: Juno.IGameConfig = {
   name: "game",
   input: { keyboard: true },
-  scale: 8
+  scale: 8,
 };
 
 export class Game extends Juno.Game {
@@ -24,10 +24,7 @@ export class Game extends Juno.Game {
 
   constructor(config: Juno.IGameConfig) {
     super(config);
-    this.addState({
-      name: "Rect",
-      instance: this
-    });
+    this.startLoop();
   }
 
   init(): void {}
@@ -35,14 +32,14 @@ export class Game extends Juno.Game {
   update(): void {}
 
   render(): void {
-    this.api.cls(13);
+    this.graphics.cls(12);
 
     for (let s = 280; s > 0; s -= 4) {
       let s2 = s / 2;
       let sd = 100 / s;
       this.x = sd * Math.sin(performance.now() / 1000);
       this.y = sd * Math.cos(performance.now() / 1000);
-      this.api.rectb(30 + this.x - s2, 30 + this.y - s2 / 2, s, s2, 8);
+      this.graphics.rectb(30 + this.x - s2, 30 + this.y - s2 / 2, s, s2, 8);
     }
   }
 }
